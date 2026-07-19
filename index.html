@@ -552,8 +552,62 @@
     font-family:'Cormorant Garamond',serif;font-style:italic;
     padding:20px 0;
   }
-  .cloud-status{
+  .corner-tools{
     position:fixed;right:12px;bottom:12px;z-index:99;
+    display:flex;gap:8px;align-items:center;
+  }
+  .export-btn{
+    font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+    padding:5px 12px;border-radius:999px;
+    background:rgba(15,38,45,.85);
+    color:rgba(247,239,220,.75);
+    border:1px solid rgba(247,239,220,.25);
+    font-family:'Nunito',system-ui,sans-serif;
+    cursor:pointer;
+  }
+  .export-btn:hover{color:var(--paper);border-color:rgba(247,239,220,.5)}
+  .backup-overlay{
+    position:fixed;inset:0;z-index:200;
+    background:rgba(10,25,32,.7);
+    display:none;
+    align-items:center;justify-content:center;
+    padding:20px;
+  }
+  .backup-overlay.open{display:flex}
+  .backup-modal{
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:var(--radius);
+    border-top:5px solid var(--mineral);
+    box-shadow:0 24px 60px rgba(0,0,0,.6);
+    max-width:400px;
+    padding:24px 26px;
+    text-align:center;
+  }
+  .backup-modal h3{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:700;font-size:1.4rem;
+    margin-bottom:8px;
+  }
+  .backup-modal p{color:var(--ink-soft);font-size:.92rem;margin-bottom:18px}
+  .backup-modal .bm-row{display:flex;gap:10px;justify-content:center}
+  .bm-primary{
+    border:none;border-radius:999px;
+    background:var(--ink);color:var(--paper);
+    font-weight:700;font-size:.88rem;
+    padding:10px 22px;cursor:pointer;
+    font-family:'Nunito',system-ui,sans-serif;
+  }
+  .bm-primary:hover{background:#39505c}
+  .bm-later{
+    border:none;background:none;cursor:pointer;
+    color:var(--ink-soft);font-size:.82rem;font-weight:700;
+    font-family:'Nunito',system-ui,sans-serif;
+    padding:10px 12px;opacity:.7;
+  }
+  .bm-later:hover{opacity:1}
+  .cloud-status{
+    z-index:99;
     font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
     padding:5px 12px;border-radius:999px;
     background:rgba(15,38,45,.85);
@@ -899,7 +953,21 @@
 
   <footer>&ldquo;You&rsquo;re not a broken kettle &mdash; you&rsquo;re just on a hot fire.&rdquo;</footer>
 
-<div class="cloud-status" id="cloudStatus">local only</div>
+<div class="corner-tools">
+  <button class="export-btn" id="exportBtn" title="Download a backup of Obu's data">export</button>
+  <div class="cloud-status" id="cloudStatus">local only</div>
+</div>
+
+<div class="backup-overlay" id="backupOverlay">
+  <div class="backup-modal">
+    <h3>Time to jar the stock</h3>
+    <p>It&rsquo;s been over a week since Obu&rsquo;s data was last backed up. Download a copy &mdash; just in case the cauldron ever tips.</p>
+    <div class="bm-row">
+      <button class="bm-primary" id="bmExport">Export backup</button>
+      <button class="bm-later" id="bmLater">Later</button>
+    </div>
+  </div>
+</div>
 
 </div>
 
@@ -1114,6 +1182,43 @@ renderComposerTags();
 renderFilterChips();
 renderNotes();
 
+/* ——— backup export & reminder ——— */
+let LAST_EXPORT = null;
+const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
+
+function exportBackup(){
+  const data = window.SheetState.gather();
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const a = document.createElement('a');
+  const d = new Date();
+  const stamp = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'obu-backup-' + stamp + '.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  LAST_EXPORT = Date.now();
+  document.getElementById('backupOverlay').classList.remove('open');
+  stateChanged();
+}
+
+document.getElementById('exportBtn').addEventListener('click', exportBackup);
+document.getElementById('bmExport').addEventListener('click', exportBackup);
+document.getElementById('bmLater').addEventListener('click', () => {
+  document.getElementById('backupOverlay').classList.remove('open');
+});
+
+window.__checkBackupReminder = function(){
+  if(LAST_EXPORT === null){
+    /* first run with sync: start the clock now rather than nagging immediately */
+    LAST_EXPORT = Date.now();
+    stateChanged();
+    return;
+  }
+  if(Date.now() - LAST_EXPORT > SEVEN_DAYS){
+    document.getElementById('backupOverlay').classList.add('open');
+  }
+};
+
 /* ——— cloud sync bridge ——— */
 function stateChanged(){
   if(window.__cloudSave) window.__cloudSave();
@@ -1128,7 +1233,8 @@ window.SheetState = {
       pips: pips,
       tags: TAGS,
       notes: NOTES,
-      noteSeq: noteSeq
+      noteSeq: noteSeq,
+      lastExport: LAST_EXPORT
     };
   },
   apply(s){
@@ -1138,6 +1244,7 @@ window.SheetState = {
     if(Array.isArray(s.tags) && s.tags.length) TAGS = s.tags;
     if(Array.isArray(s.notes)) NOTES = s.notes;
     if(typeof s.noteSeq === 'number') noteSeq = s.noteSeq;
+    if(typeof s.lastExport === 'number') LAST_EXPORT = s.lastExport;
     if(!TAGS.includes(activeTag)) activeTag = TAGS[0];
     if(filterTag !== 'all' && !TAGS.includes(filterTag)) filterTag = 'all';
     renderComposerTags(); renderFilterChips(); renderNotes();
@@ -1231,6 +1338,7 @@ if(!configured){
     };
 
     setStatus('synced', 'on');
+    if(window.__checkBackupReminder) window.__checkBackupReminder();
   } catch(err){
     console.error('Firebase init failed:', err);
     setStatus('offline — local only', 'err');
