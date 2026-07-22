@@ -1016,6 +1016,17 @@
   <div class="cloud-status" id="cloudStatus">local only</div>
 </div>
 
+<div class="backup-overlay" id="confirmOverlay">
+  <div class="backup-modal">
+    <h3>Remove this?</h3>
+    <p id="confirmMsg">Are you sure?</p>
+    <div class="bm-row">
+      <button class="bm-primary" id="confirmYes">Yes, remove it</button>
+      <button class="bm-later" id="confirmNo">No</button>
+    </div>
+  </div>
+</div>
+
 <div class="backup-overlay" id="backupOverlay">
   <div class="backup-modal">
     <h3>Time to jar the stock</h3>
@@ -1133,9 +1144,11 @@ function renderNotes(){
       '</div>';
     card.querySelector('[data-act="edit"]').addEventListener('click', () => startEdit(n.id));
     card.querySelector('[data-act="remove"]').addEventListener('click', () => {
-      NOTES = NOTES.filter(x => x.id !== n.id);
-      renderNotes();
-      stateChanged();
+      confirmRemove(n.title, () => {
+        NOTES = NOTES.filter(x => x.id !== n.id);
+        renderNotes();
+        stateChanged();
+      });
     });
     attachDrag(card.querySelector('.drag-handle'), card);
     notesList.appendChild(card);
@@ -1240,6 +1253,24 @@ renderComposerTags();
 renderFilterChips();
 renderNotes();
 
+/* ——— removal confirmation ——— */
+let confirmAction = null;
+const confirmOverlay = document.getElementById('confirmOverlay');
+function confirmRemove(name, onYes){
+  document.getElementById('confirmMsg').innerHTML =
+    'Are you sure you want to remove <b>' + esc(name) + '</b>?';
+  confirmAction = onYes;
+  confirmOverlay.classList.add('open');
+}
+document.getElementById('confirmYes').addEventListener('click', () => {
+  confirmOverlay.classList.remove('open');
+  if(confirmAction){ confirmAction(); confirmAction = null; }
+});
+document.getElementById('confirmNo').addEventListener('click', () => {
+  confirmOverlay.classList.remove('open');
+  confirmAction = null;
+});
+
 /* ——— editable inventory ——— */
 let invSeq = 100;
 let EQUIP = [
@@ -1289,9 +1320,11 @@ function renderInventory(){
         });
       }
       row.querySelector('.item-del').addEventListener('click', () => {
-        sec.set(sec.arr().filter(x => x.id !== item.id));
-        renderInventory();
-        stateChanged();
+        confirmRemove(item.name, () => {
+          sec.set(sec.arr().filter(x => x.id !== item.id));
+          renderInventory();
+          stateChanged();
+        });
       });
       listEl.appendChild(row);
     });
