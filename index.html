@@ -569,6 +569,24 @@
     box-shadow:inset 0 0 0 3px rgba(247,239,220,.55);
   }
   .item .item-main{flex:1;min-width:0}
+  .item .item-ac{
+    flex:none;
+    display:flex;align-items:center;gap:4px;
+    align-self:center;
+  }
+  .item .item-ac label{
+    font-size:.6rem;font-weight:800;letter-spacing:.1em;
+    color:var(--ink-soft);opacity:.7;
+  }
+  .item .item-ac input{
+    width:48px;
+    border:1px solid rgba(38,51,58,.2);border-radius:8px;
+    padding:4px 6px;font-size:.85rem;text-align:center;
+    background:transparent;color:var(--ink);
+    font-family:'Nunito',system-ui,sans-serif;
+    outline:none;
+  }
+  .item .item-ac input:focus{border-color:var(--dara-blue)}
   .item .item-del{
     flex:none;
     border:none;background:none;cursor:pointer;
@@ -724,13 +742,13 @@
       <p class="quiet" style="margin-bottom:12px">In the six boxes above: the big number is the modifier &mdash; the one you add to rolls &mdash; and the small number is the raw score.</p>
       <div class="derived">
         <div class="dstat"><div class="hp-row"><button class="hp-arrow" id="hpDown" aria-label="Decrease hit points">&minus;</button><div class="n" id="hpVal">35</div><button class="hp-arrow" id="hpUp" aria-label="Increase hit points">+</button></div><div class="l">Hit Points (max 35)</div></div>
-        <div class="dstat"><div class="hp-row"><button class="hp-arrow" id="acDown" aria-label="Decrease AC">&minus;</button><div class="n" id="acVal">15</div><button class="hp-arrow" id="acUp" aria-label="Increase AC">+</button></div><div class="l">AC (pan &amp; lid)</div></div>
+        <div class="dstat"><div class="hp-row"><button class="hp-arrow" id="acDown" aria-label="Decrease AC">&minus;</button><div class="n" id="acVal">15</div><button class="hp-arrow" id="acUp" aria-label="Increase AC">+</button></div><div class="l">Armor Class</div></div>
         <div class="dstat"><div class="n">30 ft</div><div class="l">Speed</div></div>
         <div class="dstat"><div class="n">+1</div><div class="l">Initiative (Dex)</div></div>
         <div class="dstat"><div class="n">+2</div><div class="l">Proficiency</div></div>
         <div class="dstat"><div class="n">3</div><div class="l">Rages / Day</div></div>
       </div>
-      <p class="quiet" style="margin-bottom:12px">AC, resolved: Unarmored Defense is 10 + Dex (+1) + Con (+3) = 14. The pot lid adds +1 while wielded, so his everyday fighting stance is 15. A bonus action raising the lid makes it 16 until his next turn. Bathhouse Obu (no lid): 14.</p>
+      <p class="quiet" style="margin-bottom:12px">AC, resolved: the number above is computed live &mdash; base 14 (Unarmored Defense: 10 + Dex +1 + Con +3), plus the AC of every item marked equipped on the Inventory tab (the pot lid&rsquo;s +1 makes his everyday stance 15), plus the arrows for temporary effects: raising the lid as a bonus action is tap +1 (and tap it back after), spells and curses likewise.</p>
     </div>
 
     <div class="card">
@@ -1053,11 +1071,13 @@ document.getElementById('hpDown').addEventListener('click', () => {
 });
 const acVal = document.getElementById('acVal');
 document.getElementById('acUp').addEventListener('click', () => {
-  acVal.textContent = parseInt(acVal.textContent) + 1;
+  AC_ADJ += 1;
+  recomputeAC();
   stateChanged();
 });
 document.getElementById('acDown').addEventListener('click', () => {
-  acVal.textContent = Math.max(0, parseInt(acVal.textContent) - 1);
+  AC_ADJ -= 1;
+  recomputeAC();
   stateChanged();
 });
 
@@ -1275,7 +1295,7 @@ document.getElementById('confirmNo').addEventListener('click', () => {
 let invSeq = 100;
 let EQUIP = [
   {id:1, name:'Frying Pan', note:'his weapon: 1d6 bludgeoning, versatile (1d8), special', eq:true},
-  {id:2, name:'Pot Lid', note:'his shield: +1 AC; bonus action raises it for +1 more until his next turn', eq:true},
+  {id:2, name:'Pot Lid', note:'his shield: +1 AC; bonus action raises it for +1 more until his next turn', eq:true, ac:1},
   {id:3, name:'Cook\u2019s Utensils', note:'the heart of Obu\u2019s. The kitchen travels.', eq:false},
   {id:4, name:'Small Knife', note:'for prep, not for people', eq:false}
 ];
@@ -1310,12 +1330,21 @@ function renderInventory(){
       inner += '<span class="item-main"><span class="in">' + esc(item.name) + '</span>' +
                (item.note ? ' <span class="inote">&mdash; ' + esc(item.note) + '</span>' : '') +
                '</span>';
+      if(sec.pips){
+        inner += '<span class="item-ac"><label>AC</label><input type="number" step="1" value="' + (item.ac || 0) + '" aria-label="AC modifier"></span>';
+      }
       inner += '<button class="item-del" title="Remove" aria-label="Remove item">&#10005;</button>';
       row.innerHTML = inner;
       if(sec.pips){
         row.querySelector('.item-eq').addEventListener('click', () => {
           item.eq = !item.eq;
           renderInventory();
+          recomputeAC();
+          stateChanged();
+        });
+        row.querySelector('.item-ac input').addEventListener('change', e => {
+          item.ac = parseInt(e.target.value) || 0;
+          recomputeAC();
           stateChanged();
         });
       }
@@ -1323,6 +1352,7 @@ function renderInventory(){
         confirmRemove(item.name, () => {
           sec.set(sec.arr().filter(x => x.id !== item.id));
           renderInventory();
+          recomputeAC();
           stateChanged();
         });
       });
@@ -1337,9 +1367,10 @@ INV_SECTIONS.forEach(sec => {
     const noteEl = document.getElementById(sec.note);
     const name = nameEl.value.trim();
     if(!name) return;
-    sec.arr().push({id: invSeq++, name: name, note: noteEl.value.trim(), eq: false});
+    sec.arr().push({id: invSeq++, name: name, note: noteEl.value.trim(), eq: false, ac: 0});
     nameEl.value = ''; noteEl.value = '';
     renderInventory();
+    recomputeAC();
     stateChanged();
   };
   document.getElementById(sec.add).addEventListener('click', doAdd);
@@ -1347,7 +1378,16 @@ INV_SECTIONS.forEach(sec => {
   document.getElementById(sec.note).addEventListener('keydown', e => { if(e.key === 'Enter') doAdd(); });
 });
 
+const AC_BASE = 14;
+let AC_ADJ = 0;
+function recomputeAC(){
+  let gear = 0;
+  EQUIP.concat(MAGIC).forEach(i => { if(i.eq) gear += (i.ac || 0); });
+  acVal.textContent = AC_BASE + gear + AC_ADJ;
+}
+
 renderInventory();
+recomputeAC();
 
 /* ——— backup export & reminder ——— */
 let LAST_EXPORT = null;
@@ -1396,7 +1436,7 @@ window.SheetState = {
     document.querySelectorAll('.pip[data-key]').forEach(p => pips[p.dataset.key] = p.classList.contains('used'));
     return {
       hp: parseInt(hpVal.textContent),
-      ac: parseInt(acVal.textContent),
+      acAdj: AC_ADJ,
       pips: pips,
       tags: TAGS,
       notes: NOTES,
@@ -1410,7 +1450,7 @@ window.SheetState = {
   },
   apply(s){
     if(typeof s.hp === 'number') hpVal.textContent = s.hp;
-    if(typeof s.ac === 'number') acVal.textContent = s.ac;
+    if(typeof s.acAdj === 'number') AC_ADJ = s.acAdj;
     if(s.pips) document.querySelectorAll('.pip[data-key]').forEach(p => p.classList.toggle('used', !!s.pips[p.dataset.key]));
     if(Array.isArray(s.tags) && s.tags.length) TAGS = s.tags;
     if(Array.isArray(s.notes)) NOTES = s.notes;
@@ -1421,6 +1461,7 @@ window.SheetState = {
     if(Array.isArray(s.magic)) MAGIC = s.magic;
     if(typeof s.invSeq === 'number') invSeq = s.invSeq;
     renderInventory();
+    recomputeAC();
     if(!TAGS.includes(activeTag)) activeTag = TAGS[0];
     if(filterTag !== 'all' && !TAGS.includes(filterTag)) filterTag = 'all';
     renderComposerTags(); renderFilterChips(); renderNotes();
