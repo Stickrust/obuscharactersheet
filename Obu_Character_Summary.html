@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Obu — Character Summary</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍲</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Nunito:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --steam-dark:#16333b;
+    --steam-deep:#0f262d;
+    --paper:#f7efdc;
+    --paper-dim:#eee3c8;
+    --ink:#26333a;
+    --ink-soft:#54646c;
+    --mineral:#c14e2e;
+    --spring:#83d0c9;
+    --dara-blue:#6b93b8;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(1200px 500px at 50% -140px, rgba(131,208,201,.10), transparent 60%),
+      linear-gradient(180deg, var(--steam-dark) 0%, var(--steam-deep) 100%);
+    color:var(--paper);
+    font-family:'Nunito',system-ui,sans-serif;
+    line-height:1.55;
+    padding:34px 14px 60px;
+  }
+  .page{max-width:820px;margin:0 auto}
+
+  /* ——— the sign ——— */
+  .sign-wrap{text-align:center;margin-bottom:8px;position:relative}
+  .steam{
+    position:absolute;left:50%;top:-26px;transform:translateX(-50%);
+    width:120px;height:40px;pointer-events:none;opacity:.5;
+  }
+  .steam span{
+    position:absolute;bottom:0;width:8px;height:8px;border-radius:50%;
+    background:rgba(247,239,220,.35);
+    animation:rise 5.5s ease-in infinite;
+  }
+  .steam span:nth-child(1){left:30%;animation-delay:0s}
+  .steam span:nth-child(2){left:50%;animation-delay:1.8s}
+  .steam span:nth-child(3){left:68%;animation-delay:3.4s}
+  @keyframes rise{
+    0%{transform:translateY(0) scale(.6);opacity:0}
+    25%{opacity:.7}
+    100%{transform:translateY(-46px) scale(1.6);opacity:0}
+  }
+  @media (prefers-reduced-motion: reduce){ .steam{display:none} }
+  .sign{
+    display:inline-block;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Cormorant Garamond',serif;
+    font-weight:700;
+    font-size:clamp(3rem,10vw,4.6rem);
+    letter-spacing:.10em;
+    line-height:1;
+    padding:14px 40px 18px;
+    border-radius:10px;
+    transform:rotate(-1.6deg);
+    box-shadow:0 14px 40px rgba(0,0,0,.45), inset 0 0 0 3px rgba(38,51,58,.85), inset 0 0 0 6px var(--paper);
+    position:relative;
+  }
+  .sign::after{
+    content:"";
+    position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+    width:9px;height:9px;border-radius:50%;
+    background:var(--mineral);
+    box-shadow:0 1px 3px rgba(0,0,0,.5);
+  }
+  .signline{
+    margin-top:14px;
+    font-family:'Cormorant Garamond',serif;
+    font-style:italic;
+    font-size:1.15rem;
+    color:var(--spring);
+  }
+  .byline{
+    margin-top:6px;
+    font-size:.78rem;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:rgba(247,239,220,.55);
+  }
+
+  .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:26px 0 24px}
+  .chip{
+    font-size:.78rem;font-weight:700;letter-spacing:.05em;
+    padding:6px 13px;border-radius:999px;
+    background:rgba(247,239,220,.08);
+    border:1px solid rgba(247,239,220,.22);
+    color:var(--paper);
+  }
+  .chip b{color:var(--spring)}
+
+  /* ——— tabs ——— */
+  .tabs{
+    display:flex;justify-content:center;gap:6px;
+    margin-bottom:22px;
+  }
+  .tab{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:700;
+    font-size:1.15rem;
+    letter-spacing:.06em;
+    padding:9px 26px 10px;
+    border:1px solid rgba(247,239,220,.25);
+    border-radius:999px;
+    background:rgba(247,239,220,.06);
+    color:rgba(247,239,220,.75);
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .tab:hover{background:rgba(247,239,220,.12)}
+  .tab:focus-visible{outline:2px solid var(--spring);outline-offset:2px}
+  .tab.active{
+    background:var(--paper);
+    color:var(--ink);
+    border-color:var(--paper);
+    box-shadow:0 6px 18px rgba(0,0,0,.35);
+  }
+  .panel{display:none}
+  .panel.active{display:block}
+
+  /* ——— cards ——— */
+  .card{
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:var(--radius);
+    padding:24px 26px;
+    margin-bottom:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+    border-top:5px solid var(--dara-blue);
+  }
+  .card.hot{border-top-color:var(--mineral)}
+  .card.cool{border-top-color:var(--spring)}
+  .card h2{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:700;
+    font-size:1.5rem;
+    margin-bottom:2px;
+  }
+  .card .sub{
+    font-size:.74rem;font-weight:700;
+    letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink-soft);
+    margin-bottom:12px;
+  }
+  .card p{color:var(--ink-soft);font-size:.96rem;margin-bottom:10px}
+  .card p:last-child{margin-bottom:0}
+  .card p b{color:var(--ink)}
+  .card ul{margin:4px 0 10px 20px;color:var(--ink-soft);font-size:.96rem}
+  .card li{margin-bottom:7px}
+  .card li b{color:var(--ink)}
+  .quiet{font-style:italic;opacity:.85}
+  .card a{
+    color:#1d6a94;
+    text-decoration:underline;
+    text-decoration-color:rgba(29,106,148,.4);
+    text-underline-offset:2px;
+  }
+  .card a:hover{text-decoration-color:#1d6a94}
+  .card a b{color:inherit}
+  .rage-sub{
+    margin:10px 0 4px 6px !important;
+    padding:10px 14px 10px 18px;
+    list-style:none;
+    border-left:3px solid var(--mineral);
+    background:rgba(193,78,46,.06);
+    border-radius:0 10px 10px 0;
+  }
+  .rage-sub-label{
+    font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--mineral);
+    margin:10px 0 0 6px;
+  }
+  .rage-sub li{margin-bottom:8px}
+  .rage-sub li:last-child{margin-bottom:0}
+  .pool{
+    margin:10px 0 4px 6px !important;
+    padding:10px 14px;
+    list-style:none;
+    border-radius:0 10px 10px 0;
+  }
+  .pool li{margin-bottom:8px}
+  .pool li:last-child{margin-bottom:0}
+  .pool-label{
+    font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    margin:10px 0 0 6px;
+  }
+  .pool.sun-earth-moon{
+    border-left:3px solid var(--dara-blue);
+    background:rgba(107,147,184,.10);
+  }
+  .pool-label.sun-earth-moon{color:#4a729b}
+  .pool.knowledge{
+    border-left:3px solid #2e8f86;
+    background:rgba(131,208,201,.14);
+  }
+  .pool-label.knowledge{color:#2e8f86}
+  .rage-sub li::before{
+    content:"\21B3  ";
+    color:var(--mineral);
+    font-weight:700;
+  }
+
+  .tag{
+    display:inline-block;vertical-align:middle;
+    font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    padding:2px 9px;border-radius:999px;margin-left:8px;
+    position:relative;top:-2px;
+  }
+  .tag.settled{background:rgba(131,208,201,.28);color:#155e57}
+  .tag.simmer{background:rgba(193,78,46,.16);color:var(--mineral)}
+
+  .secret{
+    background:rgba(38,51,58,.06);
+    border-left:4px solid var(--mineral);
+    border-radius:8px;
+    padding:12px 15px;
+    margin-top:6px;
+  }
+  .secret .label{
+    font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--mineral);display:block;margin-bottom:4px;
+  }
+  .secret p{margin:0}
+  .secret.hidden-spoiler p{
+    filter:blur(6px);
+    user-select:none;
+    -webkit-user-select:none;
+    transition:filter .25s ease;
+  }
+  .secret.hidden-spoiler{cursor:pointer}
+  .secret .spoiler-hint{
+    display:none;
+    font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--mineral);
+    margin-top:6px;
+  }
+  .secret.hidden-spoiler .spoiler-hint{display:block}
+
+  /* ——— stat blocks ——— */
+  .scores{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:10px;
+    margin:6px 0 14px;
+  }
+  @media (max-width:560px){ .scores{grid-template-columns:repeat(3,1fr)} }
+  .score{
+    text-align:center;
+    background:rgba(38,51,58,.05);
+    border:1px solid rgba(38,51,58,.12);
+    border-radius:12px;
+    padding:10px 4px 8px;
+  }
+  .score .abbr{
+    font-size:.66rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .score .mod{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:700;font-size:1.7rem;line-height:1.1;color:var(--ink);
+  }
+  .score .raw{font-size:.72rem;color:var(--ink-soft)}
+  .derived{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;margin-bottom:14px;
+  }
+  @media (max-width:560px){ .derived{grid-template-columns:repeat(2,1fr)} }
+  .dstat{
+    text-align:center;
+    background:rgba(107,147,184,.12);
+    border-radius:12px;
+    padding:8px 6px;
+  }
+  .dstat .n{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:700;font-size:1.5rem;color:var(--ink);line-height:1.1;
+  }
+  .dstat .l{font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft)}
+  .hp-row{
+    display:flex;align-items:center;justify-content:center;gap:18px;
+  }
+  .hp-arrow{
+    width:26px;height:26px;
+    border:none;border-radius:8px;
+    background:rgba(38,51,58,.10);
+    color:var(--ink);
+    font-size:1.05rem;font-weight:800;line-height:1;
+    cursor:pointer;
+    transition:background .12s ease;
+  }
+  .hp-arrow:hover{background:rgba(38,51,58,.20)}
+  .hp-arrow:focus-visible{outline:2px solid var(--dara-blue);outline-offset:2px}
+
+  .skills{
+    display:grid;
+    grid-auto-flow:column;
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:repeat(7,auto);
+    gap:6px 14px;
+    margin:6px 0 12px;
+  }
+  @media (max-width:560px){
+    .skills{
+      grid-template-columns:repeat(2,1fr);
+      grid-template-rows:repeat(10,auto);
+    }
+  }
+  .skill{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:8px;
+    background:rgba(38,51,58,.05);
+    border:1px solid rgba(38,51,58,.10);
+    border-radius:9px;
+    padding:6px 10px;
+    font-size:.88rem;
+  }
+  .skill .sn{color:var(--ink);font-weight:600}
+  .skill .sa{font-size:.64rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+  .skill.prof{
+    background:rgba(131,208,201,.22);
+    border-color:rgba(46,143,134,.5);
+  }
+  .skill.prof .sn::after{
+    content:" \2726";
+    color:#2e8f86;
+    font-size:.75em;
+  }
+  .skill .sm{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:700;font-size:1.05rem;color:var(--ink);
+    white-space:nowrap;
+  }
+  .item{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:12px;
+    padding:8px 2px;
+    border-bottom:1px dashed rgba(38,51,58,.15);
+    font-size:.94rem;
+  }
+  .item:last-child{border-bottom:none}
+  .item .in{color:var(--ink);font-weight:700}
+  .item .iq{
+    font-size:.7rem;font-weight:800;letter-spacing:.08em;
+    color:var(--paper);
+    background:var(--dara-blue);
+    border-radius:999px;
+    padding:1px 8px;
+    position:relative;top:-1px;
+    margin-left:6px;
+  }
+  .item .inote{color:var(--ink-soft);font-size:.85rem}
+  .item .iw{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:700;color:var(--ink-soft);
+    white-space:nowrap;
+  }
+  .phase{
+    border-radius:12px;
+    padding:14px 16px;
+    margin-bottom:12px;
+    border:1px solid transparent;
+  }
+  .phase:last-of-type{margin-bottom:0}
+  .phase h3{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:700;
+    font-size:1.18rem;
+    color:var(--ink);
+    margin-bottom:2px;
+  }
+  .phase .ph-sub{
+    font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  .phase p{margin-bottom:8px}
+  .phase p:last-child{margin-bottom:0}
+  .phase ul{margin-bottom:0}
+  .ph-move{background:rgba(107,147,184,.12);border-color:rgba(107,147,184,.35)}
+  .ph-move .ph-sub{color:#4a729b}
+  .ph-action{background:rgba(193,78,46,.09);border-color:rgba(193,78,46,.30)}
+  .ph-action .ph-sub{color:var(--mineral)}
+  .ph-bonus{background:rgba(131,208,201,.14);border-color:rgba(131,208,201,.45)}
+  .ph-bonus .ph-sub{color:#2e8f86}
+  .ph-react{background:rgba(201,147,46,.12);border-color:rgba(201,147,46,.40)}
+  .ph-react .ph-sub{color:#a4761f}
+  .ph-free{background:rgba(38,51,58,.05);border-color:rgba(38,51,58,.15)}
+  .ph-free .ph-sub{color:var(--ink-soft)}
+  .rage-track{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    margin-left:10px;
+    vertical-align:middle;
+  }
+  .pip{
+    width:21px;height:21px;
+    border-radius:50%;
+    border:2px solid var(--mineral);
+    background:transparent;
+    cursor:pointer;
+    padding:0;
+    transition:background .12s ease, transform .12s ease;
+  }
+  .pip:hover{transform:scale(1.15)}
+  .pip:focus-visible{outline:2px solid var(--mineral);outline-offset:2px}
+  .pip.used{
+    background:var(--mineral);
+    box-shadow:inset 0 0 0 3px rgba(247,239,220,.55);
+  }
+  .pip-reset{
+    border:none;background:none;cursor:pointer;
+    font-family:'Nunito',system-ui,sans-serif;
+    font-size:.62rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-soft);opacity:.55;
+    padding:2px 4px;
+  }
+  .pip-reset:hover{opacity:1}
+  /* ——— notes ——— */
+  .note-composer{
+    background:var(--paper);
+    border-radius:var(--radius);
+    padding:20px 22px;
+    margin-bottom:16px;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+    border-top:5px solid var(--spring);
+  }
+  .nc-title, .nc-body{
+    width:100%;
+    border:none;background:transparent;
+    font-family:'Nunito',system-ui,sans-serif;
+    color:var(--ink);
+    outline:none;
+  }
+  .nc-title{font-size:1.15rem;font-weight:700;margin-bottom:6px}
+  .nc-body{font-size:.92rem;resize:vertical;min-height:44px;color:var(--ink-soft)}
+  .nc-title::placeholder,.nc-body::placeholder{color:rgba(38,51,58,.35)}
+  .nc-divider{border:none;border-top:1px solid rgba(38,51,58,.15);margin:10px 0 12px}
+  .nc-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+  .tagchip{
+    font-size:.78rem;font-weight:700;
+    padding:6px 14px;border-radius:999px;
+    border:1px solid rgba(38,51,58,.25);
+    background:transparent;color:var(--ink-soft);
+    cursor:pointer;
+    font-family:'Nunito',system-ui,sans-serif;
+  }
+  .tagchip.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  .nc-custom{
+    flex:1;min-width:110px;
+    border:1px solid rgba(38,51,58,.2);border-radius:999px;
+    padding:6px 14px;font-size:.8rem;
+    background:transparent;color:var(--ink);
+    font-family:'Nunito',system-ui,sans-serif;
+    outline:none;
+  }
+  .nc-custom::placeholder{color:rgba(38,51,58,.35)}
+  .nc-submit{
+    border:none;border-radius:999px;
+    background:var(--ink);color:var(--paper);
+    font-weight:700;font-size:.85rem;
+    padding:9px 20px;cursor:pointer;
+    font-family:'Nunito',system-ui,sans-serif;
+  }
+  .nc-submit:hover{background:#39505c}
+  .filter-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:14px}
+  .fchip{
+    font-size:.78rem;font-weight:700;
+    padding:6px 14px;border-radius:999px;
+    border:1px solid rgba(247,239,220,.3);
+    background:transparent;color:rgba(247,239,220,.75);
+    cursor:pointer;
+    font-family:'Nunito',system-ui,sans-serif;
+  }
+  .fchip.active{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+  .note-search{
+    flex:1;min-width:120px;
+    border:1px solid rgba(247,239,220,.3);border-radius:999px;
+    padding:7px 14px;font-size:.8rem;
+    background:rgba(247,239,220,.07);color:var(--paper);
+    font-family:'Nunito',system-ui,sans-serif;
+    outline:none;
+  }
+  .note-search::placeholder{color:rgba(247,239,220,.4)}
+  .note-card{
+    background:var(--paper);
+    border-radius:var(--radius);
+    padding:16px 18px 14px;
+    margin-bottom:12px;
+    box-shadow:0 8px 22px rgba(0,0,0,.3);
+    display:flex;gap:12px;align-items:flex-start;
+  }
+  .note-card.dragging{
+    opacity:.92;
+    box-shadow:0 18px 40px rgba(0,0,0,.5);
+    transform:scale(1.02);
+    position:relative;
+    z-index:50;
+  }
+  .drag-handle{
+    flex:none;
+    width:34px;
+    align-self:stretch;
+    display:flex;align-items:center;justify-content:center;
+    color:rgba(38,51,58,.3);
+    font-size:1.05rem;letter-spacing:2px;
+    cursor:grab;
+    user-select:none;
+    -webkit-user-select:none;
+    -webkit-touch-callout:none;
+    touch-action:none;
+  }
+  .drag-handle:active{cursor:grabbing;color:rgba(38,51,58,.6)}
+  .note-main{flex:1;min-width:0}
+  .note-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+  .note-title{font-weight:800;color:var(--ink);font-size:1.02rem;word-break:break-word}
+  .note-tag{
+    flex:none;
+    font-size:.66rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+    background:rgba(38,51,58,.08);color:var(--ink-soft);
+    border-radius:999px;padding:3px 10px;
+  }
+  .note-body{color:var(--ink-soft);font-size:.9rem;margin-top:4px;word-break:break-word;white-space:pre-wrap}
+  .note-foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+  .note-date{font-size:.74rem;color:rgba(38,51,58,.45);font-family:'Cormorant Garamond',serif;font-style:italic}
+  .note-actions button{
+    border:none;background:none;cursor:pointer;
+    font-family:'Nunito',system-ui,sans-serif;
+    font-size:.76rem;font-weight:700;
+    color:var(--ink-soft);opacity:.6;
+    padding:2px 6px;
+  }
+  .note-actions button:hover{opacity:1}
+  .notes-empty{
+    text-align:center;color:rgba(247,239,220,.5);
+    font-family:'Cormorant Garamond',serif;font-style:italic;
+    padding:20px 0;
+  }
+  .item .item-eq{
+    flex:none;
+    width:21px;height:21px;
+    border-radius:50%;
+    border:2px solid var(--mineral);
+    background:transparent;
+    cursor:pointer;
+    padding:0;
+    align-self:center;
+    transition:background .12s ease, transform .12s ease;
+  }
+  .item .item-eq:hover{transform:scale(1.15)}
+  .item .item-eq.on{
+    background:var(--mineral);
+    box-shadow:inset 0 0 0 3px rgba(247,239,220,.55);
+  }
+  .item .item-main{flex:1;min-width:0}
+  .item .item-del{
+    flex:none;
+    border:none;background:none;cursor:pointer;
+    color:var(--ink-soft);opacity:.4;
+    font-size:.95rem;font-weight:700;
+    padding:2px 6px;
+    font-family:'Nunito',system-ui,sans-serif;
+    align-self:center;
+  }
+  .item .item-del:hover{opacity:1;color:var(--mineral)}
+  .inv-add{
+    display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;
+  }
+  .inv-add input{
+    border:1px solid rgba(38,51,58,.2);border-radius:999px;
+    padding:7px 14px;font-size:.85rem;
+    background:transparent;color:var(--ink);
+    font-family:'Nunito',system-ui,sans-serif;
+    outline:none;
+  }
+  .inv-add input:focus{border-color:var(--dara-blue)}
+  .inv-add input::placeholder{color:rgba(38,51,58,.35)}
+  .inv-add .ia-name{flex:1;min-width:110px}
+  .inv-add .ia-note{flex:2;min-width:140px}
+  .inv-add button{
+    border:none;border-radius:999px;
+    background:var(--ink);color:var(--paper);
+    font-weight:700;font-size:.8rem;
+    padding:7px 16px;cursor:pointer;
+    font-family:'Nunito',system-ui,sans-serif;
+  }
+  .inv-add button:hover{background:#39505c}
+  .eq-hint{
+    font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-soft);opacity:.7;
+  }
+  .corner-tools{
+    position:fixed;right:12px;bottom:12px;z-index:99;
+    display:flex;gap:8px;align-items:center;
+  }
+  .export-btn{
+    font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+    padding:5px 12px;border-radius:999px;
+    background:rgba(15,38,45,.85);
+    color:rgba(247,239,220,.75);
+    border:1px solid rgba(247,239,220,.25);
+    font-family:'Nunito',system-ui,sans-serif;
+    cursor:pointer;
+  }
+  .export-btn:hover{color:var(--paper);border-color:rgba(247,239,220,.5)}
+  .backup-overlay{
+    position:fixed;inset:0;z-index:200;
+    background:rgba(10,25,32,.7);
+    display:none;
+    align-items:center;justify-content:center;
+    padding:20px;
+  }
+  .backup-overlay.open{display:flex}
+  .backup-modal{
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:var(--radius);
+    border-top:5px solid var(--mineral);
+    box-shadow:0 24px 60px rgba(0,0,0,.6);
+    max-width:400px;
+    padding:24px 26px;
+    text-align:center;
+  }
+  .backup-modal h3{
+    font-family:'Cormorant Garamond',serif;
+    font-weight:700;font-size:1.4rem;
+    margin-bottom:8px;
+  }
+  .backup-modal p{color:var(--ink-soft);font-size:.92rem;margin-bottom:18px}
+  .backup-modal .bm-row{display:flex;gap:10px;justify-content:center}
+  .bm-primary{
+    border:none;border-radius:999px;
+    background:var(--ink);color:var(--paper);
+    font-weight:700;font-size:.88rem;
+    padding:10px 22px;cursor:pointer;
+    font-family:'Nunito',system-ui,sans-serif;
+  }
+  .bm-primary:hover{background:#39505c}
+  .bm-later{
+    border:none;background:none;cursor:pointer;
+    color:var(--ink-soft);font-size:.82rem;font-weight:700;
+    font-family:'Nunito',system-ui,sans-serif;
+    padding:10px 12px;opacity:.7;
+  }
+  .bm-later:hover{opacity:1}
+  .cloud-status{
+    z-index:99;
+    font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+    padding:5px 12px;border-radius:999px;
+    background:rgba(15,38,45,.85);
+    color:rgba(247,239,220,.6);
+    border:1px solid rgba(247,239,220,.2);
+    font-family:'Nunito',system-ui,sans-serif;
+  }
+  .cloud-status.on{color:#8fd8c9;border-color:rgba(131,208,201,.5)}
+  .cloud-status.err{color:#e8a08e;border-color:rgba(226,84,62,.5)}
+  .cloud-status.pending{color:rgba(247,239,220,.85)}
+  .qa dt{font-weight:700;color:var(--ink);font-size:.93rem;margin-top:14px}
+  .qa dt:first-child{margin-top:0}
+  .qa dd{color:var(--ink-soft);font-size:.95rem;margin:3px 0 0}
+
+  footer{
+    text-align:center;margin-top:30px;
+    font-family:'Cormorant Garamond',serif;font-style:italic;
+    color:rgba(247,239,220,.55);font-size:1rem;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="sign-wrap">
+    <div class="steam" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="sign">OBU&rsquo;S</div>
+    <div class="signline">&ldquo;Obu&rsquo;s is open.&rdquo;</div>
+    <div class="byline">Character summary &mdash; Obojima campaign</div>
+  </div>
+
+  <div class="chips">
+    <span class="chip">Name: <b>Obu</b></span>
+    <span class="chip">Blue Dara &middot; <b>he/him</b> &middot; 7 ft</span>
+    <span class="chip">Barbarian <b>3</b> &middot; <b>Path of the Belly Brewer</b></span>
+    <span class="chip">Home: <b>Onaka</b>, Land of Hot Water</span>
+  </div>
+
+  <div class="tabs" role="tablist" aria-label="Character sections">
+    <button class="tab active" id="tab-stats" role="tab" aria-selected="true" aria-controls="panel-stats">Stats</button>
+    <button class="tab" id="tab-combat" role="tab" aria-selected="false" aria-controls="panel-combat">Combat</button>
+    <button class="tab" id="tab-gear" role="tab" aria-selected="false" aria-controls="panel-gear">Inventory</button>
+    <button class="tab" id="tab-details" role="tab" aria-selected="false" aria-controls="panel-details">Details</button>
+    <button class="tab" id="tab-notes" role="tab" aria-selected="false" aria-controls="panel-notes">Notes</button>
+  </div>
+
+  <!-- ================= STATS ================= -->
+  <section class="panel active" id="panel-stats" role="tabpanel" aria-labelledby="tab-stats">
+
+    <div class="card cool">
+      <h2>Barbarian 3 &middot; Path of the Belly Brewer</h2>
+      <div class="sub">Point buy &middot; dara +2 Con / +1 Str applied <span class="tag settled">settled</span></div>
+      <div class="scores">
+        <div class="score"><div class="abbr">Str</div><div class="mod">+3</div><div class="raw">16</div></div>
+        <div class="score"><div class="abbr">Dex</div><div class="mod">+1</div><div class="raw">12</div></div>
+        <div class="score"><div class="abbr">Con</div><div class="mod">+3</div><div class="raw">16</div></div>
+        <div class="score"><div class="abbr">Int</div><div class="mod">&minus;1</div><div class="raw">8</div></div>
+        <div class="score"><div class="abbr">Wis</div><div class="mod">+1</div><div class="raw">13</div></div>
+        <div class="score"><div class="abbr">Cha</div><div class="mod">+0</div><div class="raw">10</div></div>
+      </div>
+      <p class="quiet" style="margin-bottom:12px">In the six boxes above: the big number is the modifier &mdash; the one you add to rolls &mdash; and the small number is the raw score.</p>
+      <div class="derived">
+        <div class="dstat"><div class="hp-row"><button class="hp-arrow" id="hpDown" aria-label="Decrease hit points">&minus;</button><div class="n" id="hpVal">35</div><button class="hp-arrow" id="hpUp" aria-label="Increase hit points">+</button></div><div class="l">Hit Points (max 35)</div></div>
+        <div class="dstat"><div class="hp-row"><button class="hp-arrow" id="acDown" aria-label="Decrease AC">&minus;</button><div class="n" id="acVal">15</div><button class="hp-arrow" id="acUp" aria-label="Increase AC">+</button></div><div class="l">AC (pan &amp; lid)</div></div>
+        <div class="dstat"><div class="n">30 ft</div><div class="l">Speed</div></div>
+        <div class="dstat"><div class="n">+1</div><div class="l">Initiative (Dex)</div></div>
+        <div class="dstat"><div class="n">+2</div><div class="l">Proficiency</div></div>
+        <div class="dstat"><div class="n">3</div><div class="l">Rages / Day</div></div>
+      </div>
+      <p class="quiet" style="margin-bottom:12px">AC, resolved: Unarmored Defense is 10 + Dex (+1) + Con (+3) = 14. The pot lid adds +1 while wielded, so his everyday fighting stance is 15. A bonus action raising the lid makes it 16 until his next turn. Bathhouse Obu (no lid): 14.</p>
+    </div>
+
+    <div class="card">
+      <h2>Ability Checks</h2>
+      <div class="sub">What Obu adds when he tries to do a thing</div>
+      <p>An ability check is d20 + the ability&rsquo;s modifier &mdash; and <b>+2 more</b> (proficiency) for his five proficient skills, marked below with &#10022;: Athletics and Perception (barbarian), Survival, Insight, and Nature (dara Awakened Skills).</p>
+      <div class="skills">
+        <div class="skill"><span><span class="sn">Acrobatics</span> <span class="sa">Dex</span></span><span class="sm">+1</span></div>
+        <div class="skill"><span><span class="sn">Animal Handling</span> <span class="sa">Wis</span></span><span class="sm">+1</span></div>
+        <div class="skill"><span><span class="sn">Arcana</span> <span class="sa">Int</span></span><span class="sm">&minus;1</span></div>
+        <div class="skill prof"><span><span class="sn">Athletics</span> <span class="sa">Str</span></span><span class="sm">+5</span></div>
+        <div class="skill"><span><span class="sn">Deception</span> <span class="sa">Cha</span></span><span class="sm">+0</span></div>
+        <div class="skill"><span><span class="sn">History</span> <span class="sa">Int</span></span><span class="sm">&minus;1</span></div>
+        <div class="skill prof"><span><span class="sn">Insight</span> <span class="sa">Wis</span></span><span class="sm">+3</span></div>
+        <div class="skill"><span><span class="sn">Intimidation</span> <span class="sa">Cha</span></span><span class="sm">+0</span></div>
+        <div class="skill"><span><span class="sn">Investigation</span> <span class="sa">Int</span></span><span class="sm">&minus;1</span></div>
+        <div class="skill"><span><span class="sn">Mechanics</span> <span class="sa">Int?</span></span><span class="sm">&minus;1</span></div>
+        <div class="skill"><span><span class="sn">Medicine</span> <span class="sa">Wis</span></span><span class="sm">+1</span></div>
+        <div class="skill prof"><span><span class="sn">Nature</span> <span class="sa">Int</span></span><span class="sm">+1</span></div>
+        <div class="skill prof"><span><span class="sn">Perception</span> <span class="sa">Wis</span></span><span class="sm">+3</span></div>
+        <div class="skill"><span><span class="sn">Performance</span> <span class="sa">Cha</span></span><span class="sm">+0</span></div>
+        <div class="skill"><span><span class="sn">Persuasion</span> <span class="sa">Cha</span></span><span class="sm">+0</span></div>
+        <div class="skill"><span><span class="sn">Religion</span> <span class="sa">Int</span></span><span class="sm">&minus;1</span></div>
+        <div class="skill"><span><span class="sn">Salvage</span> <span class="sa">Int</span></span><span class="sm">&minus;1</span></div>
+        <div class="skill"><span><span class="sn">Sleight of Hand</span> <span class="sa">Dex</span></span><span class="sm">+1</span></div>
+        <div class="skill"><span><span class="sn">Stealth</span> <span class="sa">Dex</span></span><span class="sm">+1</span></div>
+        <div class="skill prof"><span><span class="sn">Survival</span> <span class="sa">Wis</span></span><span class="sm">+3</span></div>
+      </div>
+      <p class="quiet">Athletics also covers grappling and shoving; raging grants advantage on all Str checks. Raw Con checks (eating contests, marathon stew-stirring) use +3. Mechanics and Salvage are Obojima custom skills &mdash; Salvage is Int per the potion rules; Mechanics&rsquo; ability isn&rsquo;t stated in the files (marked ?), and there may be more custom skills; ask the DM. The Knowledge Talisman adds 1d6 to any one check per day, rollable after seeing the d20.</p>
+    </div>
+
+    <div class="card">
+      <h2>Toolkit</h2>
+      <div class="sub">Ancestry &amp; class traits, in brief <span class="tag settled">settled</span></div>
+      <ul>
+        <li><b>Blue dara:</b> Medium size, 30-ft speed, three skill proficiencies of choice, and paper talismans (Sun, Earth, or Moon; 1/long rest) &mdash; plus the blue dara&rsquo;s daily <b>Knowledge Talisman</b> (a d6 boost to an ability check). The Earth Talisman &mdash; keeping someone on their feet &mdash; is deeply on-brand.</li>
+        <li><b>Sacred Revelation:</b> he can read the thumbprint glyphs left across the island by other dara &mdash; the trail his self-discovery may follow.</li>
+        <li><b>Languages:</b> Common and <b>Archaic First Age Languages</b> &mdash; the latter inherited through his parting glyph. He can read the old world&rsquo;s script and does not know why. His predecessor could.</li>
+        <li><b>Belly Brewer:</b> he brews concoctions in his own gut &mdash; combat, utility, or whimsy &mdash; activated when he rages. The most chaotic cauldron on the island, carried under his apron. <b>Side Effects</b> (3rd level): the countless magical ingredients he&rsquo;s ingested have left him with the <b>Prestidigitation</b> cantrip (warm, flavor, and clean &mdash; kitchen magic) and <b>Thaumaturgy</b> (booming voice, trembling ground).</li>
+        <li><b>Barbarian 2&ndash;3:</b> <b>Reckless Attack</b> (advantage on Str attacks this turn; attacks against him gain advantage too &mdash; the lid comes off) and <b>Danger Sense</b> (advantage on Dex saves vs. effects he can see).</li>
+      </ul>
+    </div>
+
+    <div class="card hot">
+      <h2>Still Simmering</h2>
+      <div class="sub">Open decisions <span class="tag simmer">simmering</span></div>
+      <ul>
+        <li><b>Verify HP with the DM.</b> He said &ldquo;max for the character&rdquo; &mdash; if that means max per level (12 + 3 Con, &times;3 levels), it&rsquo;s <b>45</b>, not the current 35. Check what D&amp;D Beyond shows, then update the tracker.</li>
+        <li><b>Hook Sling?</b> The DM may have wanted Obu to have one &mdash; an Obojima gadget that hurls a barbed hook up to 20 ft (bonus action) and pulls him to it; winding it back in takes an action and two hands. Confirm, then add to Inventory and the Combat tab.</li>
+        <li><b>Relations.</b> Largely answered by the DM&rsquo;s Onaka cast (see Details) &mdash; <b>Lady Umishi</b> is the mentor, and Obu seeks her. Still open if wanted: the pilgrim, the predecessor, a stand regular.</li>
+        <li><b>The parting glyph.</b> What exactly did his predecessor leave him? Door deliberately left open for the DM.</li>
+        <li><b>Background.</b> Waiting on the DM &mdash; Obu leans <b>Spirit Kin</b> if it comes up.</li>
+        <li><b>To ask the DM:</b> a limited multi-use version of the Chicken Chaser &mdash; for agriculture, not artillery.</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <!-- ================= DETAILS ================= -->
+  <section class="panel" id="panel-details" role="tabpanel" aria-labelledby="tab-details">
+
+    <div class="card">
+      <h2>Faces of Onaka</h2>
+      <div class="sub">People Obu knows from home <span class="tag settled">from the DM</span></div>
+      <ul>
+        <li><b>Lady Umishi</b> &mdash; long white hair, a black blindfold, and a spirit companion: a snake made of smoke. She gave Obu pointers and a little teaching in potion craft, and let him study &mdash; though never out of her &ldquo;sight&rdquo; &mdash; her volume of <i>Granny Prumple&rsquo;s Almanac</i>, taking notes on the basics. She never told him what the book was; only to be careful with it. <b>Obu is looking for her.</b></li>
+        <li><b>Mocha</b> &mdash; a pig spirit, Enmusha (guardian) to Adira, and self-appointed connoisseur of the springs: one every other night, never the same one twice in a row. Knows everyone; everyone knows him. Older-cousin vibes.</li>
+        <li><b>Adira</b> &mdash; master healer and Reika, Onaka&rsquo;s priestess of the Hito-Kami.</li>
+        <li><b>Aniko</b> &mdash; daughter of the Ivory Steps Inn (once a sword school), who dreams of reviving it; left to travel the island for that cause as the campaign begins.</li>
+        <li><b>Lea</b> &mdash; Aniko&rsquo;s friend who shares the dream; joined Scale&rsquo;s and Tellu&rsquo;s sword school.</li>
+      </ul>
+      <p class="quiet">Home, per the DM: Onaka&rsquo;s springs are the Hogstone Springs network, feeding its bathhouses and inns; the village holds the Yon Temple (Hito-Kami, for the river spirit Yon), the Ivory Steps Inn, and the local Steaming Brew Coven.</p>
+    </div>
+
+    <div class="card">
+      <h2>The Chef</h2>
+      <div class="sub">Who he is <span class="tag settled">settled</span></div>
+      <p>A nurturer first and always. Obu believes in fair play and kindness, and there is a cup of tea or a snack in his hands for anyone who needs one. He is a full seven feet of stout, hairless, blue-skinned dara with a single enormous eye that misses nothing &mdash; least of all an empty stomach or an unhappy face.</p>
+      <p><b>Inspirations:</b> Dr. Chef (<i>The Long Way to a Small, Angry Planet</i>), Cadwallader (<i>Lightfall</i>), and Ringo (<i>Blue Eye Samurai</i>) &mdash; the gentle caretaker whose kindness is a practice, not a passivity.</p>
+    </div>
+
+    <div class="card cool">
+      <h2>The Springs &amp; the Stand</h2>
+      <div class="sub">Life before the road <span class="tag settled">settled</span></div>
+      <p>Obu grew up among the hot springs of Onaka. He learned to cook by soaking plants and herbs in the mineral spring water and sharing the results with villagers and travelers &mdash; patience cooking, where the springs do the work and Obu&rsquo;s genius is knowing which pool, which herbs, and how long.</p>
+      <p>The belly brewing came the same unhurried way: munching on snacks while soaking in the hot springs, Obu discovered that certain morsels, eaten together in that mineral warmth, did their brewing <i>inside him</i>. He became a simmering pool himself &mdash; one more vessel among Onaka&rsquo;s waters.</p>
+      <p>In time he opened his own food stand in town. Nobody officially named it; the village just started saying <i>&ldquo;meet you at Obu&rsquo;s,&rdquo;</i> and it stuck. It became very popular. He didn&rsquo;t close it when he left &mdash; he took it with him. Wherever the pot goes down: <b>&ldquo;Obu&rsquo;s is open.&rdquo;</b></p>
+    </div>
+
+    <div class="card hot">
+      <h2>The Kettle</h2>
+      <div class="sub">The temper, and why he left <span class="tag settled">settled</span></div>
+      <p>Obu has a hot temper. When he sees injustice &mdash; a bully, someone taking advantage of another &mdash; the kettle boils over and he slips into his rage. He is deeply embarrassed by this. Dara are supposed to be level-headed, observant, neutral; every flare of his temper feels like failing at being dara. He doesn&rsquo;t know whether the anger came with his parting glyph, or whether something is simply wrong with him.</p>
+      <p>Folks in Onaka had seen him lose his temper a little, here and there. But not long ago he lost it in front of a crowd. The village reassured him it was okay &mdash; and he left anyway, because the shame was internal. He set out to travel, clear his head, and maybe learn who he is. Onaka is still warm, still fond of him, still waiting. He just can&rsquo;t go back <i>yet</i>.</p>
+    </div>
+
+    <div class="card">
+      <h2>Two Errands (He Thinks)</h2>
+      <div class="sub">Why he&rsquo;s on the road <span class="tag settled">settled</span></div>
+      <ul>
+        <li><b>The Chicken Chaser potion.</b> More than a year ago, a pilgrim passing through Onaka told Obu of a very rare potion that summons a hundred chickens. Obu became obsessed: imagine summoning flocks for towns and villages struggling to grow food! He seeks the recipe and its rare ingredients across Obojima &mdash; the errand that first points him toward Fiamut.</li>
+        <li><b>The other errand.</b> Figure himself out. Learn where the temper comes from &mdash; the dara he inherited from, or himself &mdash; and what to do about it.</li>
+      </ul>
+      <p class="quiet">He believes these are two separate errands. They are not.</p>
+      <div class="secret hidden-spoiler" id="spoilerBox">
+        <span class="label">What Obu doesn&rsquo;t know</span>
+        <p>The Chicken Chaser is as much weapon as wonder &mdash; the summoned flock is devastating to everything caught in it. The gentle thing he&rsquo;s chasing has teeth it doesn&rsquo;t know about. So does he.</p>
+        <span class="spoiler-hint">Spoiler &mdash; player knowledge only. Tap to reveal.</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Standing &amp; Leanings</h2>
+      <div class="sub">Factions <span class="tag settled">settled</span></div>
+      <ul>
+        <li><b>Factions:</b> not joining any &mdash; <i>not right now.</i> He left home because he doesn&rsquo;t trust himself in front of people; being claimed by a group can wait until he knows what they&rsquo;d be claiming.</li>
+        <li><b>The Independent Potion Brewers:</b> their &ldquo;uncouth, irresponsible&rdquo; reputation turns him off &mdash; it&rsquo;s a mirror he doesn&rsquo;t want to look into. He may get sucked into one of their brawls anyway.</li>
+      </ul>
+    </div>
+
+    <div class="card cool">
+      <h2>The DM&rsquo;s Questions</h2>
+      <div class="sub">Answers on record</div>
+      <dl class="qa">
+        <dt>What village or city did they live in before? (Not Uluwa or Fiamut)</dt>
+        <dd>Onaka.</dd>
+        <dt>What did they do before the campaign?</dt>
+        <dd>Lived among the hot springs; learned to cook by soaking plants and herbs in the spring water and sharing them with villagers and travelers. Eventually opened his own food stand in town &mdash; it became very popular.</dd>
+        <dt>Why venture to Fiamut / travel Obojima?</dt>
+        <dd>To find the recipe and ingredients for the rare Chicken Chaser potion, so he can summon flocks for villages struggling to grow food.</dd>
+        <dt>Other objectives after Fiamut?</dt>
+        <dd>To figure himself out &mdash; the temper, the shame, the question of whether it&rsquo;s inherited. He left Onaka after losing his temper in front of a crowd; the village forgave him, but he couldn&rsquo;t.</dd>
+        <dt>Interested in joining any factions?</dt>
+        <dd>No. Not right now.</dd>
+        <dt>Any relations?</dt>
+        <dd>Still thinking it over. (Ideas simmering in the Stats tab.)</dd>
+      </dl>
+    </div>
+
+  </section>
+
+  <!-- ================= COMBAT ================= -->
+  <section class="panel" id="panel-combat" role="tabpanel" aria-labelledby="tab-combat">
+
+    <div class="card hot">
+      <h2>One Turn of Combat</h2>
+      <div class="sub">Obu&rsquo;s menu of options each round &mdash; one of each colored box per turn</div>
+
+      <div class="phase ph-move">
+        <h3>Move</h3>
+        <div class="ph-sub">Up to 30 ft &middot; splittable</div>
+        <p>Walk up to 30 feet, split freely before/after/between anything else on this card. Difficult terrain costs double.</p>
+      </div>
+
+      <div class="phase ph-action">
+        <h3>Action</h3>
+        <div class="ph-sub">Pick one</div>
+        <ul>
+          <li><b>Attack</b> &mdash; one swing of the frying pan: d20 + 5 to hit; damage <b>1d6 + 3</b> one-handed or <b>1d8 + 3</b> two-handed (+2 more while raging). He can attack <b>recklessly</b>: advantage on Str attacks this turn, but attacks against him gain advantage until his next turn. Instead of damaging, an attack can be a <b>grapple</b> or <b>shove</b> (Athletics contest &mdash; his +5 shines here).</li>
+          <li><b>Standard actions</b> &mdash; Dash (double move), Disengage (no opportunity attacks), Dodge (attacks vs. him at disadvantage), Help an ally, Hide, Search, or Use an Object (pour a potion down an ally&rsquo;s throat, upend the stew pot).</li>
+          <li><b>Cast a cantrip</b> &mdash; <a href="https://www.dndbeyond.com/spells/2213-prestidigitation" target="_blank" rel="noopener"><b>Prestidigitation</b></a> (clean, warm, flavor, snuff or light small flames, minor sensory effects) or <a href="https://www.dndbeyond.com/spells/2277-thaumaturgy" target="_blank" rel="noopener"><b>Thaumaturgy</b></a> (booming voice, trembling ground, doors slam, flames flicker). <b>Not while raging</b> &mdash; barbarians can&rsquo;t cast during a rage; the kitchen magic only works when the kettle isn&rsquo;t boiling.</li>
+          <li><b>Create a talisman</b> &mdash; one of Sun, Earth, or Moon (1/long rest), plus his blue-dara Knowledge Talisman (its own 1/long rest). Each is a paper charm he hands to someone (or keeps); it lasts 1 hour or until it activates.
+            <div class="pool-label sun-earth-moon">Pool 1 &mdash; pick one of these per long rest: <span class="rage-track" aria-label="Pool 1 talisman use"><button class="pip" data-key="pool1" aria-label="Pool 1 use"></button></span></div>
+            <ul class="pool sun-earth-moon">
+              <li><b>Sun</b> &mdash; the holder can Dash or Disengage as a bonus action. Lasts <b>1 hour</b> or until activated.</li>
+              <li><b>Earth</b> &mdash; if the holder would drop to 0 HP (and isn&rsquo;t killed outright), they drop to 1 HP instead; activates by itself. Lasts <b>1 hour</b> or until activated.</li>
+              <li><b>Moon</b> &mdash; placed on a weapon (an action); its next hit deals extra radiant damage equal to Obu&rsquo;s level (3). Lasts <b>1 hour</b> or until activated.</li>
+            </ul>
+            <div class="pool-label knowledge">Pool 2 &mdash; separate daily use (blue dara gift): <span class="rage-track" aria-label="Pool 2 talisman use"><button class="pip" data-key="pool2" aria-label="Pool 2 use"></button></span></div>
+            <ul class="pool knowledge">
+              <li><b>Knowledge</b> &mdash; the holder adds 1d6 to any ability check, rollable before or after seeing the d20. Not attack rolls or saves. Lasts <b>1 hour</b> or until activated &mdash; so make it when the moment is near, not at breakfast.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div class="phase ph-bonus">
+        <h3>Bonus Action</h3>
+        <div class="ph-sub">Pick one</div>
+        <ul>
+          <li><b>Enter Rage</b> (3/long rest)<span class="rage-track" aria-label="Rage uses"><button class="pip" data-key="rage1" aria-label="Rage use 1"></button><button class="pip" data-key="rage2" aria-label="Rage use 2"></button><button class="pip" data-key="rage3" aria-label="Rage use 3"></button><button class="pip-reset" title="Long rest: resets rages and talisman uses">reset</button></span> &mdash; the kettle boils over: +2 melee damage, resistance to bludgeoning/piercing/slashing, advantage on Str checks and saves. Choosing a belly concoction (combat, utility, or whimsy) happens as part of raging.
+            <div class="rage-sub-label">Only while raging &mdash; each unlocked by the concoction chosen:</div>
+            <ul class="rage-sub">
+              <li><b>Stretch arms</b> <i>(Combat)</i> &mdash; rubber-body reach +5 ft for the turn; first hit deals +1d6.</li>
+              <li><b>Swallow &amp; heal</b> <i>(Utility)</i> &mdash; gulp down an object, spend one of his 3 Hit Dice, regain 1d12 + 3 HP (2 uses/long rest). <span class="rage-track" aria-label="Swallow and heal uses"><button class="pip" data-key="swallow1" aria-label="Swallow use 1"></button><button class="pip" data-key="swallow2" aria-label="Swallow use 2"></button></span></li>
+              <li><b>Whimsy effects</b> <i>(Whimsy)</i> &mdash; at the start of each turn: a short teleport, a self-zap that boosts his next ability check, or Help as a bonus action.</li>
+            </ul>
+            <p class="quiet" style="margin:8px 0 0 6px">Entering the rage takes this turn&rsquo;s bonus action &mdash; the options above start on his <i>next</i> turn.</p>
+          </li>
+          <li><b>Raise the pot lid</b> &mdash; while wielding the frying pan: +1 AC until his next turn (stacking on the lid&rsquo;s passive +1, for AC 16).</li>
+          <li><b>Pot lid bash?</b> &mdash; the pan&rsquo;s Special allows a bonus-action pot lid attack (1d4) when attacking with a finesse or light weapon; whether the pan itself qualifies is an ask-the-DM.</li>
+          <li><b>Activate a Sun Talisman</b> he&rsquo;s holding &mdash; Dash or Disengage as a bonus action.</li>
+        </ul>
+      </div>
+
+      <div class="phase ph-react">
+        <h3>Reaction</h3>
+        <div class="ph-sub">One per round &middot; fires on a trigger, usually on someone else&rsquo;s turn &middot; recharges at the start of his turn</div>
+        <ul>
+          <li><b>Opportunity attack</b> when an enemy leaves his reach &mdash; one free pan swing.</li>
+          <li><b>Belly deflect</b> <i>(raging, Combat concoction)</i> &mdash; when hit by a ranged attack, reduce the damage by 1d12 + 6 (1d12 + Con + barbarian level).</li>
+        </ul>
+      </div>
+
+      <div class="phase ph-free">
+        <h3>Free Interaction</h3>
+        <div class="ph-sub">Once per turn &middot; no cost</div>
+        <p>Interact with one object (draw the pan, snatch a snack off his belt) and speak briefly. &ldquo;Obu&rsquo;s is open&rdquo; costs nothing. A <i>second</i> object interaction in the same turn requires the Use an Object action.</p>
+      </div>
+
+      <p class="quiet" style="margin-top:12px">Talismans in someone&rsquo;s possession activate on <i>their</i> turn, not Obu&rsquo;s &mdash; the Knowledge Talisman&rsquo;s d6 rides along with an ability check, and the Earth Talisman fires by itself when its holder would drop to 0 HP.</p>
+    </div>
+
+  </section>
+
+  <!-- ================= INVENTORY ================= -->
+  <section class="panel" id="panel-gear" role="tabpanel" aria-labelledby="tab-gear">
+
+    <div class="card hot">
+      <h2>The Chef&rsquo;s Kit/Equipment</h2>
+      <div class="sub">Carried &amp; worn &middot; <span class="eq-hint">tap the circle to mark equipped</span></div>
+      <div id="equipList"></div>
+      <div class="inv-add">
+        <input class="ia-name" id="equipName" type="text" placeholder="item&hellip;" autocomplete="off">
+        <input class="ia-note" id="equipNote" type="text" placeholder="notes (optional)&hellip;" autocomplete="off">
+        <button id="equipAdd">add</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>In the Backpack</h2>
+      <div class="sub">Provisions &amp; travel gear</div>
+      <div id="packList"></div>
+      <div class="inv-add">
+        <input class="ia-name" id="packName" type="text" placeholder="item&hellip;" autocomplete="off">
+        <input class="ia-note" id="packNote" type="text" placeholder="notes (optional)&hellip;" autocomplete="off">
+        <button id="packAdd">add</button>
+      </div>
+    </div>
+
+    <div class="card cool">
+      <h2>Magic Items</h2>
+      <div class="sub">Wonders acquired &middot; <span class="eq-hint">tap the circle to mark equipped</span></div>
+      <div id="magicList"></div>
+      <div class="inv-add">
+        <input class="ia-name" id="magicName" type="text" placeholder="item&hellip;" autocomplete="off">
+        <input class="ia-note" id="magicNote" type="text" placeholder="notes (optional)&hellip;" autocomplete="off">
+        <button id="magicAdd">add</button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= NOTES ================= -->
+  <section class="panel" id="panel-notes" role="tabpanel" aria-labelledby="tab-notes">
+
+    <div class="note-composer">
+      <input class="nc-title" id="ncTitle" type="text" placeholder="Stir in a new note&hellip;" autocomplete="off">
+      <textarea class="nc-body" id="ncBody" placeholder="Notes, links, thoughts&hellip;"></textarea>
+      <hr class="nc-divider">
+      <div class="nc-row">
+        <span id="ncTags"></span>
+        <input class="nc-custom" id="ncCustom" type="text" placeholder="custom tag&hellip;" autocomplete="off">
+        <button class="nc-submit" id="ncSubmit">stir it in</button>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <span id="filterChips"></span>
+      <input class="note-search" id="noteSearch" type="search" placeholder="search&hellip;" autocomplete="off">
+    </div>
+
+    <div id="notesList"></div>
+    <div class="notes-empty" id="notesEmpty">The pot is empty. Stir something in.</div>
+    <p class="quiet" style="color:rgba(247,239,220,.45);text-align:center;font-size:.78rem">Notes live in this page session only for now &mdash; persistent memory comes with the future build.</p>
+
+  </section>
+
+  <footer>&ldquo;You&rsquo;re not a broken kettle &mdash; you&rsquo;re just on a hot fire.&rdquo;</footer>
+
+<div class="corner-tools">
+  <button class="export-btn" id="exportBtn" title="Download a backup of Obu's data">export</button>
+  <div class="cloud-status" id="cloudStatus">local only</div>
+</div>
+
+<div class="backup-overlay" id="backupOverlay">
+  <div class="backup-modal">
+    <h3>Time to jar the stock</h3>
+    <p>It&rsquo;s been over a week since Obu&rsquo;s data was last backed up. Download a copy &mdash; just in case the cauldron ever tips.</p>
+    <div class="bm-row">
+      <button class="bm-primary" id="bmExport">Export backup</button>
+      <button class="bm-later" id="bmLater">Later</button>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const HP_MAX = 35;
+const hpVal = document.getElementById('hpVal');
+document.getElementById('hpUp').addEventListener('click', () => {
+  hpVal.textContent = Math.min(HP_MAX, parseInt(hpVal.textContent) + 1);
+  stateChanged();
+});
+document.getElementById('hpDown').addEventListener('click', () => {
+  hpVal.textContent = Math.max(0, parseInt(hpVal.textContent) - 1);
+  stateChanged();
+});
+const acVal = document.getElementById('acVal');
+document.getElementById('acUp').addEventListener('click', () => {
+  acVal.textContent = parseInt(acVal.textContent) + 1;
+  stateChanged();
+});
+document.getElementById('acDown').addEventListener('click', () => {
+  acVal.textContent = Math.max(0, parseInt(acVal.textContent) - 1);
+  stateChanged();
+});
+
+document.querySelectorAll('.pip').forEach(pip => {
+  pip.addEventListener('click', () => { pip.classList.toggle('used'); stateChanged(); });
+});
+const resetBtn = document.querySelector('.pip-reset');
+if(resetBtn){
+  resetBtn.addEventListener('click', () => {
+    document.querySelectorAll('.pip').forEach(p => p.classList.remove('used'));
+    stateChanged();
+  });
+}
+
+/* ——— notes ——— */
+let NOTES = [];
+let TAGS = ['quest', 'people', 'session'];
+let activeTag = 'quest';
+let filterTag = 'all';
+let editingId = null;
+let noteSeq = 1;
+
+const ncTitle = document.getElementById('ncTitle');
+const ncBody = document.getElementById('ncBody');
+const ncCustom = document.getElementById('ncCustom');
+const ncTags = document.getElementById('ncTags');
+const filterChips = document.getElementById('filterChips');
+const notesList = document.getElementById('notesList');
+const notesEmpty = document.getElementById('notesEmpty');
+const noteSearch = document.getElementById('noteSearch');
+
+function esc(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function linkify(s){
+  return esc(s).replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+}
+
+function renderComposerTags(){
+  ncTags.innerHTML = '';
+  TAGS.forEach(t => {
+    const b = document.createElement('button');
+    b.className = 'tagchip' + (t === activeTag ? ' active' : '');
+    b.textContent = t;
+    b.addEventListener('click', () => { activeTag = t; renderComposerTags(); });
+    ncTags.appendChild(b);
+  });
+}
+
+function renderFilterChips(){
+  filterChips.innerHTML = '';
+  ['all'].concat(TAGS).forEach(t => {
+    const b = document.createElement('button');
+    b.className = 'fchip' + (t === filterTag ? ' active' : '');
+    b.textContent = t;
+    b.addEventListener('click', () => { filterTag = t; renderFilterChips(); renderNotes(); });
+    filterChips.appendChild(b);
+  });
+}
+
+function renderNotes(){
+  const q = noteSearch.value.trim().toLowerCase();
+  notesList.innerHTML = '';
+  const visible = NOTES.filter(n =>
+    (filterTag === 'all' || n.tag === filterTag) &&
+    (!q || n.title.toLowerCase().includes(q) || n.body.toLowerCase().includes(q))
+  );
+  notesEmpty.style.display = visible.length ? 'none' : 'block';
+  visible.forEach(n => {
+    const card = document.createElement('div');
+    card.className = 'note-card';
+    card.dataset.id = n.id;
+    card.innerHTML =
+      '<div class="drag-handle" title="Drag to reorder">&#8942;&#8942;</div>' +
+      '<div class="note-main">' +
+        '<div class="note-head"><span class="note-title">' + esc(n.title) + '</span>' +
+        '<span class="note-tag">' + esc(n.tag) + '</span></div>' +
+        (n.body ? '<div class="note-body">' + linkify(n.body) + '</div>' : '') +
+        '<div class="note-foot"><span class="note-date">' + n.date + '</span>' +
+        '<span class="note-actions">' +
+          '<button data-act="edit">edit</button>' +
+          '<button data-act="remove">remove</button>' +
+        '</span></div>' +
+      '</div>';
+    card.querySelector('[data-act="edit"]').addEventListener('click', () => startEdit(n.id));
+    card.querySelector('[data-act="remove"]').addEventListener('click', () => {
+      NOTES = NOTES.filter(x => x.id !== n.id);
+      renderNotes();
+      stateChanged();
+    });
+    attachDrag(card.querySelector('.drag-handle'), card);
+    notesList.appendChild(card);
+  });
+}
+
+function startEdit(id){
+  const n = NOTES.find(x => x.id === id);
+  if(!n) return;
+  ncTitle.value = n.title;
+  ncBody.value = n.body;
+  activeTag = n.tag;
+  if(!TAGS.includes(n.tag)) TAGS.push(n.tag);
+  editingId = id;
+  document.getElementById('ncSubmit').textContent = 'update';
+  renderComposerTags();
+  ncTitle.focus();
+}
+
+document.getElementById('ncSubmit').addEventListener('click', () => {
+  const custom = ncCustom.value.trim().toLowerCase();
+  if(custom){
+    if(!TAGS.includes(custom)) TAGS.push(custom);
+    activeTag = custom;
+    ncCustom.value = '';
+  }
+  const title = ncTitle.value.trim();
+  const body = ncBody.value.trim();
+  if(!title && !body) return;
+  if(editingId !== null){
+    const n = NOTES.find(x => x.id === editingId);
+    if(n){ n.title = title || '(untitled)'; n.body = body; n.tag = activeTag; }
+    editingId = null;
+    document.getElementById('ncSubmit').textContent = 'stir it in';
+  } else {
+    NOTES.unshift({
+      id: noteSeq++,
+      title: title || '(untitled)',
+      body: body,
+      tag: activeTag,
+      date: new Date().toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'})
+    });
+  }
+  ncTitle.value = ''; ncBody.value = '';
+  renderComposerTags(); renderFilterChips(); renderNotes();
+  stateChanged();
+});
+
+noteSearch.addEventListener('input', renderNotes);
+
+/* drag to reorder: card follows the pointer, order resolves on release */
+function attachDrag(handle, card){
+  const startDrag = (startY, moveEvt, endEvts, getY) => {
+    card.classList.add('dragging');
+    let dy = 0;
+    const move = ev => {
+      if(ev.cancelable) ev.preventDefault();
+      dy = getY(ev) - startY;
+      card.style.transform = 'scale(1.02) translateY(' + dy + 'px)';
+    };
+    const end = () => {
+      document.removeEventListener(moveEvt, move);
+      endEvts.forEach(t => document.removeEventListener(t, end));
+      card.classList.remove('dragging');
+      card.style.transform = '';
+      /* find where the card's dragged center landed among siblings */
+      const center = card.getBoundingClientRect().top + dy + card.offsetHeight / 2;
+      const others = Array.from(notesList.children).filter(c => c !== card);
+      let target = null;
+      for(const other of others){
+        const r = other.getBoundingClientRect();
+        if(center < r.top + r.height / 2){ target = other; break; }
+      }
+      if(target) notesList.insertBefore(card, target);
+      else notesList.appendChild(card);
+      const order = Array.from(notesList.children).map(c => parseInt(c.dataset.id));
+      NOTES.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+      stateChanged();
+    };
+    document.addEventListener(moveEvt, move, {passive:false});
+    endEvts.forEach(t => document.addEventListener(t, end));
+  };
+
+  if(window.PointerEvent){
+    handle.addEventListener('pointerdown', e => {
+      e.preventDefault();
+      startDrag(e.clientY, 'pointermove', ['pointerup','pointercancel'], ev => ev.clientY);
+    });
+  } else {
+    handle.addEventListener('mousedown', e => {
+      e.preventDefault();
+      startDrag(e.clientY, 'mousemove', ['mouseup'], ev => ev.clientY);
+    });
+    handle.addEventListener('touchstart', e => {
+      e.preventDefault();
+      startDrag(e.touches[0].clientY, 'touchmove', ['touchend','touchcancel'], ev => ev.touches[0].clientY);
+    }, {passive:false});
+  }
+}
+
+renderComposerTags();
+renderFilterChips();
+renderNotes();
+
+/* ——— editable inventory ——— */
+let invSeq = 100;
+let EQUIP = [
+  {id:1, name:'Frying Pan', note:'his weapon: 1d6 bludgeoning, versatile (1d8), special', eq:true},
+  {id:2, name:'Pot Lid', note:'his shield: +1 AC; bonus action raises it for +1 more until his next turn', eq:true},
+  {id:3, name:'Cook\u2019s Utensils', note:'the heart of Obu\u2019s. The kitchen travels.', eq:false},
+  {id:4, name:'Small Knife', note:'for prep, not for people', eq:false}
+];
+let PACK = [
+  {id:5, name:'Rations \u00d710', note:'ten days of food. As if Obu would ever serve mere rations.', eq:false},
+  {id:6, name:'Torches \u00d710', note:'', eq:false},
+  {id:7, name:'Hempen Rope', note:'50 feet', eq:false},
+  {id:8, name:'Bedroll', note:'', eq:false},
+  {id:9, name:'Large Fluffy Towel', note:'an Onaka native never travels without one', eq:false},
+  {id:10, name:'Mess Kit', note:'for guests', eq:false},
+  {id:11, name:'Tinderbox', note:'the stove, such as it is', eq:false}
+];
+let MAGIC = [];
+
+const INV_SECTIONS = [
+  {arr: () => EQUIP, set: a => EQUIP = a, list: 'equipList', name: 'equipName', note: 'equipNote', add: 'equipAdd', pips: true},
+  {arr: () => PACK, set: a => PACK = a, list: 'packList', name: 'packName', note: 'packNote', add: 'packAdd', pips: false},
+  {arr: () => MAGIC, set: a => MAGIC = a, list: 'magicList', name: 'magicName', note: 'magicNote', add: 'magicAdd', pips: true}
+];
+
+function renderInventory(){
+  INV_SECTIONS.forEach(sec => {
+    const listEl = document.getElementById(sec.list);
+    listEl.innerHTML = '';
+    sec.arr().forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'item';
+      let inner = '';
+      if(sec.pips){
+        inner += '<button class="item-eq' + (item.eq ? ' on' : '') + '" title="Equipped" aria-label="Toggle equipped"></button>';
+      }
+      inner += '<span class="item-main"><span class="in">' + esc(item.name) + '</span>' +
+               (item.note ? ' <span class="inote">&mdash; ' + esc(item.note) + '</span>' : '') +
+               '</span>';
+      inner += '<button class="item-del" title="Remove" aria-label="Remove item">&#10005;</button>';
+      row.innerHTML = inner;
+      if(sec.pips){
+        row.querySelector('.item-eq').addEventListener('click', () => {
+          item.eq = !item.eq;
+          renderInventory();
+          stateChanged();
+        });
+      }
+      row.querySelector('.item-del').addEventListener('click', () => {
+        sec.set(sec.arr().filter(x => x.id !== item.id));
+        renderInventory();
+        stateChanged();
+      });
+      listEl.appendChild(row);
+    });
+  });
+}
+
+INV_SECTIONS.forEach(sec => {
+  const doAdd = () => {
+    const nameEl = document.getElementById(sec.name);
+    const noteEl = document.getElementById(sec.note);
+    const name = nameEl.value.trim();
+    if(!name) return;
+    sec.arr().push({id: invSeq++, name: name, note: noteEl.value.trim(), eq: false});
+    nameEl.value = ''; noteEl.value = '';
+    renderInventory();
+    stateChanged();
+  };
+  document.getElementById(sec.add).addEventListener('click', doAdd);
+  document.getElementById(sec.name).addEventListener('keydown', e => { if(e.key === 'Enter') doAdd(); });
+  document.getElementById(sec.note).addEventListener('keydown', e => { if(e.key === 'Enter') doAdd(); });
+});
+
+renderInventory();
+
+/* ——— backup export & reminder ——— */
+let LAST_EXPORT = null;
+const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
+
+function exportBackup(){
+  const data = window.SheetState.gather();
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const a = document.createElement('a');
+  const d = new Date();
+  const stamp = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'obu-backup-' + stamp + '.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  LAST_EXPORT = Date.now();
+  document.getElementById('backupOverlay').classList.remove('open');
+  stateChanged();
+}
+
+document.getElementById('exportBtn').addEventListener('click', exportBackup);
+document.getElementById('bmExport').addEventListener('click', exportBackup);
+document.getElementById('bmLater').addEventListener('click', () => {
+  document.getElementById('backupOverlay').classList.remove('open');
+});
+
+window.__checkBackupReminder = function(){
+  if(LAST_EXPORT === null){
+    /* first run with sync: start the clock now rather than nagging immediately */
+    LAST_EXPORT = Date.now();
+    stateChanged();
+    return;
+  }
+  if(Date.now() - LAST_EXPORT > SEVEN_DAYS){
+    document.getElementById('backupOverlay').classList.add('open');
+  }
+};
+
+/* ——— cloud sync bridge ——— */
+function stateChanged(){
+  if(window.__cloudSave) window.__cloudSave();
+}
+window.SheetState = {
+  gather(){
+    const pips = {};
+    document.querySelectorAll('.pip[data-key]').forEach(p => pips[p.dataset.key] = p.classList.contains('used'));
+    return {
+      hp: parseInt(hpVal.textContent),
+      ac: parseInt(acVal.textContent),
+      pips: pips,
+      tags: TAGS,
+      notes: NOTES,
+      noteSeq: noteSeq,
+      lastExport: LAST_EXPORT,
+      equip: EQUIP,
+      pack: PACK,
+      magic: MAGIC,
+      invSeq: invSeq
+    };
+  },
+  apply(s){
+    if(typeof s.hp === 'number') hpVal.textContent = s.hp;
+    if(typeof s.ac === 'number') acVal.textContent = s.ac;
+    if(s.pips) document.querySelectorAll('.pip[data-key]').forEach(p => p.classList.toggle('used', !!s.pips[p.dataset.key]));
+    if(Array.isArray(s.tags) && s.tags.length) TAGS = s.tags;
+    if(Array.isArray(s.notes)) NOTES = s.notes;
+    if(typeof s.noteSeq === 'number') noteSeq = s.noteSeq;
+    if(typeof s.lastExport === 'number') LAST_EXPORT = s.lastExport;
+    if(Array.isArray(s.equip)) EQUIP = s.equip;
+    if(Array.isArray(s.pack)) PACK = s.pack;
+    if(Array.isArray(s.magic)) MAGIC = s.magic;
+    if(typeof s.invSeq === 'number') invSeq = s.invSeq;
+    renderInventory();
+    if(!TAGS.includes(activeTag)) activeTag = TAGS[0];
+    if(filterTag !== 'all' && !TAGS.includes(filterTag)) filterTag = 'all';
+    renderComposerTags(); renderFilterChips(); renderNotes();
+  }
+};
+
+const spoilerBox = document.getElementById('spoilerBox');
+if(spoilerBox){
+  spoilerBox.addEventListener('click', () => {
+    spoilerBox.classList.toggle('hidden-spoiler');
+  });
+}
+
+const tabs = document.querySelectorAll('.tab');
+const panels = document.querySelectorAll('.panel');
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+    panels.forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    tab.setAttribute('aria-selected','true');
+    document.getElementById(tab.getAttribute('aria-controls')).classList.add('active');
+  });
+});
+</script>
+
+<script type="module">
+/* ============================================================
+   FIREBASE SETUP — two things to paste:
+   1) Your web app config from the Firebase console
+      (Project settings → Your apps → SDK setup and configuration)
+   2) A SHEET_ID: any long random string you invent. It is the
+      secret name of Obu's document — treat it like a password.
+   Until both are filled in, the page runs in local-only mode.
+   ============================================================ */
+const firebaseConfig = {
+  apiKey: "AIzaSyA0WOrjklbdUGehrhwBWC65VgXCoQt4-ns",
+  authDomain: "obu-sheet.firebaseapp.com",
+  projectId: "obu-sheet",
+  storageBucket: "obu-sheet.firebasestorage.app",
+  messagingSenderId: "899153040036",
+  appId: "1:899153040036:web:8397600d8642376191cc31"
+};
+const SHEET_ID = "obu-kettle-Xk29mQpz7vTr4UHbbij";
+/* ============================================================ */
+
+const statusEl = document.getElementById('cloudStatus');
+function setStatus(txt, cls){
+  statusEl.textContent = txt;
+  statusEl.className = 'cloud-status' + (cls ? ' ' + cls : '');
+}
+
+const configured = !firebaseConfig.apiKey.startsWith('PASTE') && !SHEET_ID.startsWith('CHOOSE');
+
+if(!configured){
+  setStatus('local only', '');
+} else {
+  try {
+    setStatus('connecting…', 'pending');
+    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
+    const { getAuth, signInAnonymously } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
+    const { getFirestore, doc, getDoc, setDoc } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+
+    const app = initializeApp(firebaseConfig);
+    await signInAnonymously(getAuth(app));
+    const db = getFirestore(app);
+    const ref = doc(db, 'sheets', SHEET_ID);
+
+    /* restore on load */
+    const snap = await getDoc(ref);
+    if(snap.exists()){
+      window.SheetState.apply(snap.data());
+    } else {
+      await setDoc(ref, window.SheetState.gather());
+    }
+
+    /* debounced save on every change */
+    let timer = null;
+    window.__cloudSave = () => {
+      setStatus('saving…', 'pending');
+      clearTimeout(timer);
+      timer = setTimeout(async () => {
+        try {
+          await setDoc(ref, window.SheetState.gather());
+          setStatus('synced', 'on');
+        } catch(err){
+          console.error('Save failed:', err);
+          setStatus('save failed', 'err');
+        }
+      }, 600);
+    };
+
+    setStatus('synced', 'on');
+    if(window.__checkBackupReminder) window.__checkBackupReminder();
+  } catch(err){
+    console.error('Firebase init failed:', err);
+    setStatus('offline — local only', 'err');
+  }
+}
+</script>
+</body>
+</html>
