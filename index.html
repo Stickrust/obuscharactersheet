@@ -271,7 +271,13 @@
     font-family:'Cormorant Garamond',serif;
     font-weight:700;font-size:1.7rem;line-height:1.1;color:var(--ink);
   }
-  .score .raw{font-size:.72rem;color:var(--ink-soft)}
+  .score .raw{font-size:.72rem;color:var(--ink-soft);margin-top:4px}
+  .score .save{
+    display:block;
+    margin-top:5px;
+    font-size:.6rem;font-weight:800;letter-spacing:.04em;
+    color:#2e8f86;
+  }
   .derived{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -732,9 +738,9 @@
       <h2>Barbarian 3 &middot; Path of the Belly Brewer</h2>
       <div class="sub">Point buy &middot; dara +2 Con / +1 Str applied <span class="tag settled">settled</span></div>
       <div class="scores">
-        <div class="score"><div class="abbr">Str</div><div class="mod">+3</div><div class="raw">16</div></div>
+        <div class="score"><div class="abbr">Str</div><div class="mod">+3</div><div class="raw">16</div><span class="save">+5 save</span></div>
         <div class="score"><div class="abbr">Dex</div><div class="mod">+1</div><div class="raw">12</div></div>
-        <div class="score"><div class="abbr">Con</div><div class="mod">+3</div><div class="raw">16</div></div>
+        <div class="score"><div class="abbr">Con</div><div class="mod">+3</div><div class="raw">16</div><span class="save">+5 save</span></div>
         <div class="score"><div class="abbr">Int</div><div class="mod">&minus;1</div><div class="raw">8</div></div>
         <div class="score"><div class="abbr">Wis</div><div class="mod">+1</div><div class="raw">13</div></div>
         <div class="score"><div class="abbr">Cha</div><div class="mod">+0</div><div class="raw">10</div></div>
@@ -745,7 +751,7 @@
         <div class="dstat"><div class="hp-row"><button class="hp-arrow" id="acDown" aria-label="Decrease AC">&minus;</button><div class="n" id="acVal">15</div><button class="hp-arrow" id="acUp" aria-label="Increase AC">+</button></div><div class="l">Armor Class</div></div>
         <div class="dstat"><div class="n">30 ft</div><div class="l">Speed</div></div>
         <div class="dstat"><div class="n">+1</div><div class="l">Initiative (Dex)</div></div>
-        <div class="dstat"><div class="n">+2</div><div class="l">Proficiency</div></div>
+        <div class="dstat"><div class="n">+2</div><div class="l">Proficiency Bonus</div></div>
         <div class="dstat"><div class="n">3</div><div class="l">Rages / Day</div></div>
       </div>
       <p class="quiet" style="margin-bottom:12px">AC, resolved: the number above is computed live &mdash; base 14 (Unarmored Defense: 10 + Dex +1 + Con +3), plus the AC of every item marked equipped on the Inventory tab (the pot lid&rsquo;s +1 makes his everyday stance 15), plus the arrows for temporary effects: raising the lid as a bonus action is tap +1 (and tap it back after), spells and curses likewise.</p>
