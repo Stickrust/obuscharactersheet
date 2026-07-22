@@ -552,6 +552,59 @@
     font-family:'Cormorant Garamond',serif;font-style:italic;
     padding:20px 0;
   }
+  .item .item-eq{
+    flex:none;
+    width:21px;height:21px;
+    border-radius:50%;
+    border:2px solid var(--mineral);
+    background:transparent;
+    cursor:pointer;
+    padding:0;
+    align-self:center;
+    transition:background .12s ease, transform .12s ease;
+  }
+  .item .item-eq:hover{transform:scale(1.15)}
+  .item .item-eq.on{
+    background:var(--mineral);
+    box-shadow:inset 0 0 0 3px rgba(247,239,220,.55);
+  }
+  .item .item-main{flex:1;min-width:0}
+  .item .item-del{
+    flex:none;
+    border:none;background:none;cursor:pointer;
+    color:var(--ink-soft);opacity:.4;
+    font-size:.95rem;font-weight:700;
+    padding:2px 6px;
+    font-family:'Nunito',system-ui,sans-serif;
+    align-self:center;
+  }
+  .item .item-del:hover{opacity:1;color:var(--mineral)}
+  .inv-add{
+    display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;
+  }
+  .inv-add input{
+    border:1px solid rgba(38,51,58,.2);border-radius:999px;
+    padding:7px 14px;font-size:.85rem;
+    background:transparent;color:var(--ink);
+    font-family:'Nunito',system-ui,sans-serif;
+    outline:none;
+  }
+  .inv-add input:focus{border-color:var(--dara-blue)}
+  .inv-add input::placeholder{color:rgba(38,51,58,.35)}
+  .inv-add .ia-name{flex:1;min-width:110px}
+  .inv-add .ia-note{flex:2;min-width:140px}
+  .inv-add button{
+    border:none;border-radius:999px;
+    background:var(--ink);color:var(--paper);
+    font-weight:700;font-size:.8rem;
+    padding:7px 16px;cursor:pointer;
+    font-family:'Nunito',system-ui,sans-serif;
+  }
+  .inv-add button:hover{background:#39505c}
+  .eq-hint{
+    font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-soft);opacity:.7;
+  }
   .corner-tools{
     position:fixed;right:12px;bottom:12px;z-index:99;
     display:flex;gap:8px;align-items:center;
@@ -897,31 +950,36 @@
   <section class="panel" id="panel-gear" role="tabpanel" aria-labelledby="tab-gear">
 
     <div class="card hot">
-      <h2>Carried &amp; Worn</h2>
-      <div class="sub">The tools of the trade &mdash; 16 lb</div>
-      <div class="item"><span><span class="in">Frying Pan</span> <span class="inote">&mdash; his weapon: 1d6 bludgeoning, versatile (1d8), special.</span></span><span class="iw">6 lb</span></div>
-      <div class="item"><span><span class="in">Pot Lid</span> <span class="inote">&mdash; his shield: +1 AC (AC 15), and a bonus action can raise it for +1 more until his next turn.</span></span><span class="iw">2 lb</span></div>
-      <div class="item"><span><span class="in">Cook&rsquo;s Utensils</span> <span class="inote">&mdash; the heart of Obu&rsquo;s. The kitchen travels.</span></span><span class="iw">8 lb</span></div>
-      <div class="item"><span><span class="in">Small Knife</span> <span class="inote">&mdash; for prep, not for people.</span></span><span class="iw">&mdash;</span></div>
+      <h2>The Chef&rsquo;s Kit/Equipment</h2>
+      <div class="sub">Carried &amp; worn &middot; <span class="eq-hint">tap the circle to mark equipped</span></div>
+      <div id="equipList"></div>
+      <div class="inv-add">
+        <input class="ia-name" id="equipName" type="text" placeholder="item&hellip;" autocomplete="off">
+        <input class="ia-note" id="equipNote" type="text" placeholder="notes (optional)&hellip;" autocomplete="off">
+        <button id="equipAdd">add</button>
+      </div>
     </div>
 
     <div class="card">
       <h2>In the Backpack</h2>
-      <div class="sub">Provisions &amp; travel gear &mdash; 56 lb</div>
-      <div class="item"><span><span class="in">Rations</span><span class="iq">&times;10</span> <span class="inote">&mdash; ten days of food. As if Obu would ever serve mere rations.</span></span><span class="iw">20 lb</span></div>
-      <div class="item"><span><span class="in">Torches</span><span class="iq">&times;10</span></span><span class="iw">10 lb</span></div>
-      <div class="item"><span><span class="in">Hempen Rope</span> <span class="inote">&mdash; 50 feet.</span></span><span class="iw">10 lb</span></div>
-      <div class="item"><span><span class="in">Bedroll</span></span><span class="iw">7 lb</span></div>
-      <div class="item"><span><span class="in">Large Fluffy Towel</span> <span class="inote">&mdash; an Onaka native never travels without one. You never know when there&rsquo;ll be a spring worth soaking in.</span></span><span class="iw">2 lb</span></div>
-      <div class="item"><span><span class="in">Mess Kit</span> <span class="inote">&mdash; for guests.</span></span><span class="iw">1 lb</span></div>
-      <div class="item"><span><span class="in">Tinderbox</span> <span class="inote">&mdash; the stove, such as it is.</span></span><span class="iw">1 lb</span></div>
+      <div class="sub">Provisions &amp; travel gear</div>
+      <div id="packList"></div>
+      <div class="inv-add">
+        <input class="ia-name" id="packName" type="text" placeholder="item&hellip;" autocomplete="off">
+        <input class="ia-note" id="packNote" type="text" placeholder="notes (optional)&hellip;" autocomplete="off">
+        <button id="packAdd">add</button>
+      </div>
     </div>
 
     <div class="card cool">
-      <h2>The Load</h2>
-      <div class="sub">Weight &amp; capacity</div>
-      <p><b>Total: 72 lb</b> against a carrying capacity of <b>240 lb</b> (Str 16 &times; 15). Obu could carry the whole camp and a guest or two &mdash; encumbrance will never be his problem.</p>
-      <p class="quiet">His pack is a <b>large</b> one &mdash; Obu-sized, as luggage for a seven-foot frame ought to be &mdash; so the standard 30-lb container limit shouldn&rsquo;t apply. Pending the DM&rsquo;s nod; if he&rsquo;s a stickler, the bedroll, rope, and torches lash to the outside and all is well.</p>
+      <h2>Magic Items</h2>
+      <div class="sub">Wonders acquired &middot; <span class="eq-hint">tap the circle to mark equipped</span></div>
+      <div id="magicList"></div>
+      <div class="inv-add">
+        <input class="ia-name" id="magicName" type="text" placeholder="item&hellip;" autocomplete="off">
+        <input class="ia-note" id="magicNote" type="text" placeholder="notes (optional)&hellip;" autocomplete="off">
+        <button id="magicAdd">add</button>
+      </div>
     </div>
 
   </section>
@@ -1182,6 +1240,82 @@ renderComposerTags();
 renderFilterChips();
 renderNotes();
 
+/* ——— editable inventory ——— */
+let invSeq = 100;
+let EQUIP = [
+  {id:1, name:'Frying Pan', note:'his weapon: 1d6 bludgeoning, versatile (1d8), special', eq:true},
+  {id:2, name:'Pot Lid', note:'his shield: +1 AC; bonus action raises it for +1 more until his next turn', eq:true},
+  {id:3, name:'Cook\u2019s Utensils', note:'the heart of Obu\u2019s. The kitchen travels.', eq:false},
+  {id:4, name:'Small Knife', note:'for prep, not for people', eq:false}
+];
+let PACK = [
+  {id:5, name:'Rations \u00d710', note:'ten days of food. As if Obu would ever serve mere rations.', eq:false},
+  {id:6, name:'Torches \u00d710', note:'', eq:false},
+  {id:7, name:'Hempen Rope', note:'50 feet', eq:false},
+  {id:8, name:'Bedroll', note:'', eq:false},
+  {id:9, name:'Large Fluffy Towel', note:'an Onaka native never travels without one', eq:false},
+  {id:10, name:'Mess Kit', note:'for guests', eq:false},
+  {id:11, name:'Tinderbox', note:'the stove, such as it is', eq:false}
+];
+let MAGIC = [];
+
+const INV_SECTIONS = [
+  {arr: () => EQUIP, set: a => EQUIP = a, list: 'equipList', name: 'equipName', note: 'equipNote', add: 'equipAdd', pips: true},
+  {arr: () => PACK, set: a => PACK = a, list: 'packList', name: 'packName', note: 'packNote', add: 'packAdd', pips: false},
+  {arr: () => MAGIC, set: a => MAGIC = a, list: 'magicList', name: 'magicName', note: 'magicNote', add: 'magicAdd', pips: true}
+];
+
+function renderInventory(){
+  INV_SECTIONS.forEach(sec => {
+    const listEl = document.getElementById(sec.list);
+    listEl.innerHTML = '';
+    sec.arr().forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'item';
+      let inner = '';
+      if(sec.pips){
+        inner += '<button class="item-eq' + (item.eq ? ' on' : '') + '" title="Equipped" aria-label="Toggle equipped"></button>';
+      }
+      inner += '<span class="item-main"><span class="in">' + esc(item.name) + '</span>' +
+               (item.note ? ' <span class="inote">&mdash; ' + esc(item.note) + '</span>' : '') +
+               '</span>';
+      inner += '<button class="item-del" title="Remove" aria-label="Remove item">&#10005;</button>';
+      row.innerHTML = inner;
+      if(sec.pips){
+        row.querySelector('.item-eq').addEventListener('click', () => {
+          item.eq = !item.eq;
+          renderInventory();
+          stateChanged();
+        });
+      }
+      row.querySelector('.item-del').addEventListener('click', () => {
+        sec.set(sec.arr().filter(x => x.id !== item.id));
+        renderInventory();
+        stateChanged();
+      });
+      listEl.appendChild(row);
+    });
+  });
+}
+
+INV_SECTIONS.forEach(sec => {
+  const doAdd = () => {
+    const nameEl = document.getElementById(sec.name);
+    const noteEl = document.getElementById(sec.note);
+    const name = nameEl.value.trim();
+    if(!name) return;
+    sec.arr().push({id: invSeq++, name: name, note: noteEl.value.trim(), eq: false});
+    nameEl.value = ''; noteEl.value = '';
+    renderInventory();
+    stateChanged();
+  };
+  document.getElementById(sec.add).addEventListener('click', doAdd);
+  document.getElementById(sec.name).addEventListener('keydown', e => { if(e.key === 'Enter') doAdd(); });
+  document.getElementById(sec.note).addEventListener('keydown', e => { if(e.key === 'Enter') doAdd(); });
+});
+
+renderInventory();
+
 /* ——— backup export & reminder ——— */
 let LAST_EXPORT = null;
 const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
@@ -1234,7 +1368,11 @@ window.SheetState = {
       tags: TAGS,
       notes: NOTES,
       noteSeq: noteSeq,
-      lastExport: LAST_EXPORT
+      lastExport: LAST_EXPORT,
+      equip: EQUIP,
+      pack: PACK,
+      magic: MAGIC,
+      invSeq: invSeq
     };
   },
   apply(s){
@@ -1245,6 +1383,11 @@ window.SheetState = {
     if(Array.isArray(s.notes)) NOTES = s.notes;
     if(typeof s.noteSeq === 'number') noteSeq = s.noteSeq;
     if(typeof s.lastExport === 'number') LAST_EXPORT = s.lastExport;
+    if(Array.isArray(s.equip)) EQUIP = s.equip;
+    if(Array.isArray(s.pack)) PACK = s.pack;
+    if(Array.isArray(s.magic)) MAGIC = s.magic;
+    if(typeof s.invSeq === 'number') invSeq = s.invSeq;
+    renderInventory();
     if(!TAGS.includes(activeTag)) activeTag = TAGS[0];
     if(filterTag !== 'all' && !TAGS.includes(filterTag)) filterTag = 'all';
     renderComposerTags(); renderFilterChips(); renderNotes();
