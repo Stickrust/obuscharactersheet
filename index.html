@@ -754,7 +754,7 @@
         <div class="dstat"><div class="n">+2</div><div class="l">Proficiency Bonus</div></div>
         <div class="dstat"><div class="n">3</div><div class="l">Rages / Day</div></div>
       </div>
-      <p class="quiet" style="margin-bottom:12px">AC, resolved: the number above is computed live &mdash; base 14 (Unarmored Defense: 10 + Dex +1 + Con +3), plus the AC of every item marked equipped on the Inventory tab (the pot lid&rsquo;s +1 makes his everyday stance 15), plus the arrows for temporary effects: raising the lid as a bonus action is tap +1 (and tap it back after), spells and curses likewise.</p>
+      <p class="quiet" style="margin-bottom:12px">AC, resolved: the number above is computed live &mdash; base 14 (Unarmored Defense: 10 + Dex +1 + Con +3), plus the AC of every item marked equipped on the Inventory tab (the pot lid&rsquo;s +1 makes his everyday stance 15), plus the arrows for temporary effects: raising the pan as a bonus action is tap +1 (and tap it back after), spells and curses likewise.</p>
     </div>
 
     <div class="card">
@@ -944,8 +944,8 @@
             </ul>
             <p class="quiet" style="margin:8px 0 0 6px">Entering the rage takes this turn&rsquo;s bonus action &mdash; the options above start on his <i>next</i> turn.</p>
           </li>
-          <li><b>Raise the pot lid</b> &mdash; while wielding the frying pan: +1 AC until his next turn (stacking on the lid&rsquo;s passive +1, for AC 16).</li>
-          <li><b>Pot lid bash?</b> &mdash; the pan&rsquo;s Special allows a bonus-action pot lid attack (1d4) when attacking with a finesse or light weapon; whether the pan itself qualifies is an ask-the-DM.</li>
+          <li><b>Raise the pan</b> <i>(Frying Pan Special &mdash; only with the lid stowed)</i> &mdash; +1 AC until the <i>end of his next turn</i>, so one bonus action covers the rest of this round and all of the next. Requires no shield in hand, and the pot lid is a shield: he must put the lid away (a free object interaction) to use this, trading the lid&rsquo;s steady +1 for a bigger, briefer one. Tap the AC arrows to match.</li>
+          <li><b>Pot lid bash</b> <i>(Pot Lid Special &mdash; needs a finesse or light weapon)</i> &mdash; a bonus-action lid attack for 1d4 bludgeoning (no ability modifier, unless it&rsquo;s negative), available when he takes the Attack action with a <b>finesse or light</b> one-handed weapon. The frying pan is versatile, so it doesn&rsquo;t qualify; the small knife would. Unavailable in his usual pan-and-lid stance.</li>
           <li><b>Activate a Sun Talisman</b> he&rsquo;s holding &mdash; Dash or Disengage as a bonus action.</li>
         </ul>
       </div>
@@ -1300,8 +1300,8 @@ document.getElementById('confirmNo').addEventListener('click', () => {
 /* ——— editable inventory ——— */
 let invSeq = 100;
 let EQUIP = [
-  {id:1, name:'Frying Pan', note:'his weapon: 1d6 bludgeoning, versatile (1d8), special', eq:true},
-  {id:2, name:'Pot Lid', note:'his shield: +1 AC; bonus action raises it for +1 more until his next turn', eq:true, ac:1},
+  {id:1, name:'Frying Pan', note:'1d6 bludgeoning, versatile 1d8 (Special: bonus action for +1 AC until the end of his next turn \u2014 not while wielding a shield, so not while the lid is up)', eq:true},
+  {id:2, name:'Pot Lid', note:'shield, +1 AC (Special: bonus-action 1d4 bash when attacking with a finesse or light one-handed weapon \u2014 the pan is versatile, so it doesn\u2019t qualify)', eq:true, ac:1},
   {id:3, name:'Cook\u2019s Utensils', note:'the heart of Obu\u2019s. The kitchen travels.', eq:false},
   {id:4, name:'Small Knife', note:'for prep, not for people', eq:false}
 ];
