@@ -362,21 +362,7 @@
   }
   .item:last-child{border-bottom:none}
   .item .in{color:var(--ink);font-weight:700}
-  .item .iq{
-    font-size:.7rem;font-weight:800;letter-spacing:.08em;
-    color:var(--paper);
-    background:var(--dara-blue);
-    border-radius:999px;
-    padding:1px 8px;
-    position:relative;top:-1px;
-    margin-left:6px;
-  }
   .item .inote{color:var(--ink-soft);font-size:.85rem}
-  .item .iw{
-    font-family:'Cormorant Garamond',serif;
-    font-weight:700;color:var(--ink-soft);
-    white-space:nowrap;
-  }
   .phase{
     border-radius:12px;
     padding:14px 16px;
@@ -664,6 +650,30 @@
     font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
     color:var(--ink-soft);opacity:.7;
   }
+  .coin-row{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:12px;
+    padding:10px 2px;
+    border-bottom:1px dashed rgba(38,51,58,.15);
+  }
+  .coin-row:last-of-type{border-bottom:none}
+  .coin-name{color:var(--ink);font-weight:700;font-size:.98rem}
+  .coin-alt{
+    display:block;
+    font-size:.66rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-soft);opacity:.7;margin-top:2px;
+  }
+  .coin-ctl{display:flex;align-items:center;gap:12px;flex:none}
+  .coin-ctl input{
+    width:74px;
+    border:1px solid rgba(38,51,58,.2);border-radius:10px;
+    padding:6px 8px;
+    font-family:'Cormorant Garamond',serif;
+    font-weight:700;font-size:1.3rem;text-align:center;
+    background:transparent;color:var(--ink);
+    outline:none;
+  }
+  .coin-ctl input:focus{border-color:var(--dara-blue)}
   .corner-tools{
     position:fixed;right:12px;bottom:12px;z-index:99;
     display:flex;gap:8px;align-items:center;
@@ -1031,6 +1041,35 @@
     </div>
 
     <div class="card">
+      <h2>Purse</h2>
+      <div class="sub">Minted by the Dawn Petal Guild &middot; <span class="eq-hint">tap the arrows or type an amount</span></div>
+      <div class="coin-row">
+        <span><span class="coin-name">Gold Flowers</span><span class="coin-alt">gold pieces</span></span>
+        <span class="coin-ctl">
+          <button class="hp-arrow" data-coin="gp" data-dir="-1" aria-label="Fewer gold flowers">&minus;</button>
+          <input type="number" step="1" id="coinGp" value="0" aria-label="Gold flowers">
+          <button class="hp-arrow" data-coin="gp" data-dir="1" aria-label="More gold flowers">+</button>
+        </span>
+      </div>
+      <div class="coin-row">
+        <span><span class="coin-name">Sea Petals</span><span class="coin-alt">silver pieces</span></span>
+        <span class="coin-ctl">
+          <button class="hp-arrow" data-coin="sp" data-dir="-1" aria-label="Fewer sea petals">&minus;</button>
+          <input type="number" step="1" id="coinSp" value="0" aria-label="Sea petals">
+          <button class="hp-arrow" data-coin="sp" data-dir="1" aria-label="More sea petals">+</button>
+        </span>
+      </div>
+      <div class="coin-row">
+        <span><span class="coin-name">Copper Buds</span><span class="coin-alt">copper pieces</span></span>
+        <span class="coin-ctl">
+          <button class="hp-arrow" data-coin="cp" data-dir="-1" aria-label="Fewer copper buds">&minus;</button>
+          <input type="number" step="1" id="coinCp" value="0" aria-label="Copper buds">
+          <button class="hp-arrow" data-coin="cp" data-dir="1" aria-label="More copper buds">+</button>
+        </span>
+      </div>
+    </div>
+
+    <div class="card">
       <h2>In the Backpack</h2>
       <div class="sub">Provisions &amp; travel gear</div>
       <div id="packList"></div>
@@ -1335,8 +1374,8 @@ document.getElementById('confirmNo').addEventListener('click', () => {
 /* ——— editable inventory ——— */
 let invSeq = 100;
 let EQUIP = [
-  {id:1, name:'Frying Pan', note:'1d6 bludgeoning, versatile 1d8 (Special: bonus action for +1 AC until the end of his next turn \u2014 not while wielding a shield, so not while the lid is up)', eq:true},
-  {id:2, name:'Pot Lid', note:'shield, +1 AC (Special: bonus-action 1d4 bash when attacking with a finesse or light one-handed weapon \u2014 the pan is versatile, so it doesn\u2019t qualify)', eq:true, ac:1},
+  {id:1, name:'Frying Pan', note:'1d6 bludgeoning, versatile 1d8', eq:true},
+  {id:2, name:'Pot Lid', note:'shield, +1 AC', eq:true, ac:1},
   {id:3, name:'Cook\u2019s Utensils', note:'the heart of Obu\u2019s. The kitchen travels.', eq:false},
   {id:4, name:'Small Knife', note:'for prep, not for people', eq:false}
 ];
@@ -1468,6 +1507,30 @@ function recomputeAC(){
 renderInventory();
 recomputeAC();
 
+/* ——— purse ——— */
+let COIN = {gp:0, sp:0, cp:0};
+const coinEls = {gp: document.getElementById('coinGp'), sp: document.getElementById('coinSp'), cp: document.getElementById('coinCp')};
+
+function renderCoins(){
+  Object.keys(coinEls).forEach(k => coinEls[k].value = COIN[k]);
+}
+document.querySelectorAll('[data-coin]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const k = btn.dataset.coin;
+    COIN[k] = Math.max(0, COIN[k] + parseInt(btn.dataset.dir));
+    renderCoins();
+    stateChanged();
+  });
+});
+Object.keys(coinEls).forEach(k => {
+  coinEls[k].addEventListener('change', e => {
+    COIN[k] = Math.max(0, parseInt(e.target.value) || 0);
+    renderCoins();
+    stateChanged();
+  });
+});
+renderCoins();
+
 /* ——— backup export & reminder ——— */
 let LAST_EXPORT = null;
 const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
@@ -1524,7 +1587,8 @@ window.SheetState = {
       equip: EQUIP,
       pack: PACK,
       magic: MAGIC,
-      invSeq: invSeq
+      invSeq: invSeq,
+      coin: COIN
     };
   },
   apply(s){
@@ -1539,7 +1603,9 @@ window.SheetState = {
     if(Array.isArray(s.pack)) PACK = s.pack;
     if(Array.isArray(s.magic)) MAGIC = s.magic;
     if(typeof s.invSeq === 'number') invSeq = s.invSeq;
+    if(s.coin) COIN = Object.assign({gp:0, sp:0, cp:0}, s.coin);
     renderInventory();
+    renderCoins();
     recomputeAC();
     if(!TAGS.includes(activeTag)) activeTag = TAGS[0];
     if(filterTag !== 'all' && !TAGS.includes(filterTag)) filterTag = 'all';
