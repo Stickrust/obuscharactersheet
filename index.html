@@ -593,6 +593,41 @@
     outline:none;
   }
   .item .item-ac input:focus{border-color:var(--dara-blue)}
+  .item .item-edit{
+    flex:none;
+    border:none;background:none;cursor:pointer;
+    color:var(--ink-soft);opacity:.4;
+    font-size:.9rem;
+    padding:2px 4px;
+    align-self:center;
+    font-family:'Nunito',system-ui,sans-serif;
+  }
+  .item .item-edit:hover{opacity:1;color:var(--dara-blue)}
+  .item-editing{
+    display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+    padding:10px 2px;
+    border-bottom:1px dashed rgba(38,51,58,.15);
+  }
+  .item-editing input{
+    border:1px solid rgba(38,51,58,.25);border-radius:999px;
+    padding:6px 13px;font-size:.85rem;
+    background:transparent;color:var(--ink);
+    font-family:'Nunito',system-ui,sans-serif;
+    outline:none;
+  }
+  .item-editing input:focus{border-color:var(--dara-blue)}
+  .item-editing .ie-name{flex:1;min-width:110px}
+  .item-editing .ie-note{flex:2;min-width:150px}
+  .item-editing button{
+    border:none;border-radius:999px;
+    font-weight:700;font-size:.78rem;
+    padding:6px 14px;cursor:pointer;
+    font-family:'Nunito',system-ui,sans-serif;
+  }
+  .item-editing .ie-save{background:var(--ink);color:var(--paper)}
+  .item-editing .ie-save:hover{background:#39505c}
+  .item-editing .ie-cancel{background:none;color:var(--ink-soft);opacity:.7}
+  .item-editing .ie-cancel:hover{opacity:1}
   .item .item-del{
     flex:none;
     border:none;background:none;cursor:pointer;
@@ -1322,11 +1357,44 @@ const INV_SECTIONS = [
   {arr: () => MAGIC, set: a => MAGIC = a, list: 'magicList', name: 'magicName', note: 'magicNote', add: 'magicAdd', pips: true}
 ];
 
+let editingItemId = null;
+
 function renderInventory(){
   INV_SECTIONS.forEach(sec => {
     const listEl = document.getElementById(sec.list);
     listEl.innerHTML = '';
     sec.arr().forEach(item => {
+      if(editingItemId === item.id){
+        const ed = document.createElement('div');
+        ed.className = 'item-editing';
+        ed.innerHTML =
+          '<input class="ie-name" type="text" value="' + esc(item.name) + '" placeholder="item\u2026">' +
+          '<input class="ie-note" type="text" value="' + esc(item.note || '') + '" placeholder="notes\u2026">' +
+          '<button class="ie-save">save</button>' +
+          '<button class="ie-cancel">cancel</button>';
+        const nameIn = ed.querySelector('.ie-name');
+        const noteIn = ed.querySelector('.ie-note');
+        const commit = () => {
+          const v = nameIn.value.trim();
+          if(v) item.name = v;
+          item.note = noteIn.value.trim();
+          editingItemId = null;
+          renderInventory();
+          stateChanged();
+        };
+        ed.querySelector('.ie-save').addEventListener('click', commit);
+        ed.querySelector('.ie-cancel').addEventListener('click', () => {
+          editingItemId = null;
+          renderInventory();
+        });
+        [nameIn, noteIn].forEach(inp => inp.addEventListener('keydown', e => {
+          if(e.key === 'Enter') commit();
+          if(e.key === 'Escape'){ editingItemId = null; renderInventory(); }
+        }));
+        listEl.appendChild(ed);
+        nameIn.focus();
+        return;
+      }
       const row = document.createElement('div');
       row.className = 'item';
       let inner = '';
@@ -1339,6 +1407,7 @@ function renderInventory(){
       if(sec.pips){
         inner += '<span class="item-ac"><label>AC</label><input type="number" step="1" value="' + (item.ac || 0) + '" aria-label="AC modifier"></span>';
       }
+      inner += '<button class="item-edit" title="Edit" aria-label="Edit item">&#9998;</button>';
       inner += '<button class="item-del" title="Remove" aria-label="Remove item">&#10005;</button>';
       row.innerHTML = inner;
       if(sec.pips){
@@ -1354,6 +1423,10 @@ function renderInventory(){
           stateChanged();
         });
       }
+      row.querySelector('.item-edit').addEventListener('click', () => {
+        editingItemId = item.id;
+        renderInventory();
+      });
       row.querySelector('.item-del').addEventListener('click', () => {
         confirmRemove(item.name, () => {
           sec.set(sec.arr().filter(x => x.id !== item.id));
